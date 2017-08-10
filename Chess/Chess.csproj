@@ -42,11 +42,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\GameBoard.cs" />
+    <Compile Include="Model\Coordinate.cs" />
+    <Compile Include="Model\Move.cs" />
+    <Compile Include="Model\Piece.cs" />
+    <Compile Include="Model\Ranks\Bishop.cs" />
+    <Compile Include="Model\Ranks\King.cs" />
+    <Compile Include="Model\Ranks\Knight.cs" />
+    <Compile Include="Model\Ranks\Pawn.cs" />
+    <Compile Include="Model\Ranks\Queen.cs" />
+    <Compile Include="Model\Ranks\Rook.cs" />
+    <Compile Include="Model\Space.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="View\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
