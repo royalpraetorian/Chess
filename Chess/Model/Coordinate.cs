@@ -10,5 +10,11 @@ namespace Chess.Model
 	{
 		public char Column { get; set; }
 		public int Row { get; set; }
+
+		public Coordinate(char column, int row)
+		{
+			Column = column;
+			Row = row;
+		}
 	}
 }

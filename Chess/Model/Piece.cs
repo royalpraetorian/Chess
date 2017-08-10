@@ -17,6 +17,13 @@ namespace Chess.Model
 				throw new NotImplementedException();
 			}
 		}
+		public Coordinate[] RangeOfMotion
+		{
+			get
+			{
+				throw new NotImplementedException();
+			}
+		}
 		public int PlayerNumber { get; set; }
 
 		public Piece(int playerNumber)
