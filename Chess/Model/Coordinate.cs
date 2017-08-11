@@ -16,5 +16,29 @@ namespace Chess.Model
 			Column = column;
 			Row = row;
 		}
+
+		public static bool operator ==(Coordinate a, Coordinate b)
+		{
+			return (a.Column == b.Column && a.Row == b.Row);
+		}
+
+		public static bool operator !=(Coordinate a, Coordinate b)
+		{
+			return !(a == b);
+		}
+
+		public override bool Equals(object obj)
+		{
+			if (obj.GetType().Equals(typeof(Coordinate)))
+			{
+				Coordinate comparitor = (Coordinate)obj;
+				if (comparitor.Column == this.Column && comparitor.Row == this.Row)
+				{
+					return true;
+				}
+				else return false;
+			}
+			else return false;
+		}
 	}
 }

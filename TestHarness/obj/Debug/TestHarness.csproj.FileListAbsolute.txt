@@ -1,0 +1,15 @@
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\obj\Debug\TestHarness.csprojResolveAssemblyReference.cache
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\TestHarness.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\TestHarness.pdb
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Chess.exe
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Chess.pdb
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Chess.exe.config
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\obj\Debug\TestHarness.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\TestHarness\obj\Debug\TestHarness.pdb

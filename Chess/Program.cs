@@ -10,7 +10,7 @@ namespace Chess
 	{
 		static void Main(string[] args)
 		{
-
+			Control.GameBoard.ResetBoard();
 		}
 	}
 }

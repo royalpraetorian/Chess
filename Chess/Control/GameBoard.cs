@@ -11,7 +11,19 @@ namespace Chess.Control
 	public static class GameBoard
 	{
 		public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
+		public static Space GetSquare(char column, int row)
+		{
+			return gameGrid.Where(square => square.Key == new Coordinate(column, row)).First().Value;
+		}
+		public static Space GetSquare(Coordinate coords)
+		{
+			return gameGrid.Where(square => square.Key == coords).First().Value;
+		}
 		public static List<Move> moveHistory = new List<Move>();
+		static GameBoard()
+		{
+			ResetBoard();
+		}
 		public static void ResetBoard()
 		{
 			//Clear the board of all current spaces.
@@ -41,26 +53,27 @@ namespace Chess.Control
 			//Runs through every column and populates the correct rows with pawns, or other pieces based on a switch.
 			for (int column = 'a'; column<'i'; column++)
 			{
-				gameGrid[new Coordinate((char)column, 2)].OccupyingPiece = new Pawn(1);
-				switch((char)column)
+				Coordinate square = gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 1).First().Key;
+				gameGrid[square].OccupyingPiece = new Pawn(1);
+				switch ((char)column)
 				{
 					case 'a':
 					case 'h':
-						gameGrid[new Coordinate((char)column, 1)].OccupyingPiece = new Rook(1);
+						gameGrid.Where(space => space.Key.Column==column && space.Key.Row==0).First().Value.OccupyingPiece = new Rook(1);
 						break;
 					case 'b':
 					case 'g':
-						gameGrid[new Coordinate((char)column, 1)].OccupyingPiece = new Knight(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Knight(1);
 						break;
 					case 'c':
 					case 'f':
-					gameGrid[new Coordinate((char)column, 1)].OccupyingPiece = new Bishop(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Bishop(1);
 						break;
 					case 'd':
-						gameGrid[new Coordinate((char)column, 1)].OccupyingPiece = new King(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new King(1);
 						break;
 					case 'e':
-						gameGrid[new Coordinate((char)column, 1)].OccupyingPiece = new Queen(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Queen(1);
 						break;
 				}
 			}
@@ -70,26 +83,26 @@ namespace Chess.Control
 		{
 			for (int column = 'a'; column < 'i'; column++)
 			{
-				gameGrid[new Coordinate((char)column, 6)].OccupyingPiece = new Pawn(1);
+				gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 6).First().Value.OccupyingPiece = new Pawn(1);
 				switch ((char)column)
 				{
 					case 'a':
 					case 'h':
-						gameGrid[new Coordinate((char)column, 7)].OccupyingPiece = new Rook(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Rook(1);
 						break;
 					case 'b':
 					case 'g':
-						gameGrid[new Coordinate((char)column, 7)].OccupyingPiece = new Knight(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Knight(1);
 						break;
 					case 'c':
 					case 'f':
-						gameGrid[new Coordinate((char)column, 7)].OccupyingPiece = new Bishop(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Bishop(1);
 						break;
 					case 'd':
-						gameGrid[new Coordinate((char)column, 7)].OccupyingPiece = new King(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new King(1);
 						break;
 					case 'e':
-						gameGrid[new Coordinate((char)column, 7)].OccupyingPiece = new Queen(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Queen(1);
 						break;
 				}
 			}

@@ -11,5 +11,9 @@ namespace Chess.Model.Ranks
 		public Bishop(int playerNumber) : base(playerNumber)
 		{
 		}
+
+		public override Coordinate[] Threat => throw new NotImplementedException();
+
+		public override Coordinate[] RangeOfMotion => throw new NotImplementedException();
 	}
 }
