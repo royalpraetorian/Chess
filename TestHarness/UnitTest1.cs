@@ -24,6 +24,7 @@ namespace TestHarness
 			Chess.Model.Move testMove = new Move(startCoord, endCoord);
 			Chess.Control.GameBoard.MovePiece(testMove);
 			Assert.IsTrue(Chess.Control.GameBoard.GetSquare('a', 2).OccupyingPiece.GetType().Equals(typeof(Pawn)));
+			Assert.IsFalse(Chess.Control.GameBoard.MovePiece(testMove) == null);
 		}
 	}
 }
