@@ -63,10 +63,6 @@ namespace Chess.View
 				if (result==null)
 				{
 					Console.WriteLine("Move successful!");
-					if (move.PieceTaken)
-					{
-						Console.WriteLine("You took a piece!");
-					}
 				}
 				else
 				{
