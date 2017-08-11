@@ -29,27 +29,27 @@ namespace Chess.View
 					switch(startIndex)
 					{
 						case "pawn":
-							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece.GetType().Equals(typeof(Pawn)) &&
+							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece != null && square.Value.OccupyingPiece.GetType().Equals(typeof(Pawn)) &&
 							square.Value.OccupyingPiece.RangeOfMotion.Contains(endLocation)).First().Key;
 							break;
 						case "rook":
-							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece.GetType().Equals(typeof(Rook)) &&
+							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece != null && square.Value.OccupyingPiece.GetType().Equals(typeof(Rook)) &&
 							square.Value.OccupyingPiece.RangeOfMotion.Contains(endLocation)).First().Key;
 							break;
 						case "knight":
-							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece.GetType().Equals(typeof(Knight)) &&
+							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece != null && square.Value.OccupyingPiece.GetType().Equals(typeof(Knight)) &&
 							square.Value.OccupyingPiece.RangeOfMotion.Contains(endLocation)).First().Key;
 							break;
 						case "bishop":
-							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece.GetType().Equals(typeof(Bishop)) &&
+							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece != null && square.Value.OccupyingPiece.GetType().Equals(typeof(Bishop)) &&
 							square.Value.OccupyingPiece.RangeOfMotion.Contains(endLocation)).First().Key;
 							break;
 						case "king":
-							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece.GetType().Equals(typeof(King)) &&
+							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece != null && square.Value.OccupyingPiece.GetType().Equals(typeof(King)) &&
 							square.Value.OccupyingPiece.RangeOfMotion.Contains(endLocation)).First().Key;
 							break;
 						case "queen":
-							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece.GetType().Equals(typeof(Queen)) &&
+							startLocation = GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece!=null && square.Value.OccupyingPiece.GetType().Equals(typeof(Queen)) &&
 							square.Value.OccupyingPiece.RangeOfMotion.Contains(endLocation)).First().Key;
 							break;
 					}
@@ -63,6 +63,10 @@ namespace Chess.View
 				if (result==null)
 				{
 					Console.WriteLine("Move successful!");
+					if (move.PieceTaken)
+					{
+						Console.WriteLine("You took a piece!");
+					}
 				}
 				else
 				{
