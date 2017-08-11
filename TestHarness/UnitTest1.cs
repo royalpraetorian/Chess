@@ -13,7 +13,10 @@ namespace TestHarness
 		public void BoardInitTest()
 		{
 			Chess.Control.GameBoard.ResetBoard();
-			Assert.IsTrue(Chess.Control.GameBoard.gameGrid.Where(square => square.Key == new Coordinate('a', 1)).First().Value.OccupyingPiece.GetType().Equals(typeof(Pawn)));
+			for (int column = 'a'; column<'i'; column++)
+			{
+				Assert.IsTrue(Chess.Control.GameBoard.GetSquare((char)column, 1).OccupyingPiece.GetType() == typeof(Pawn));
+			}
 		}
 
 		[TestMethod]
