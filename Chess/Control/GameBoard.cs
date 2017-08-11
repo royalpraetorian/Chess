@@ -54,26 +54,26 @@ namespace Chess.Control
 			for (int column = 'a'; column<'i'; column++)
 			{
 				Coordinate square = gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 1).First().Key;
-				gameGrid[square].OccupyingPiece = new Pawn(1);
+				gameGrid[square].OccupyingPiece = new Pawn(0);
 				switch ((char)column)
 				{
 					case 'a':
 					case 'h':
-						gameGrid.Where(space => space.Key.Column==column && space.Key.Row==0).First().Value.OccupyingPiece = new Rook(1);
+						gameGrid.Where(space => space.Key.Column==column && space.Key.Row==0).First().Value.OccupyingPiece = new Rook(0);
 						break;
 					case 'b':
 					case 'g':
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Knight(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Knight(0);
 						break;
 					case 'c':
 					case 'f':
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Bishop(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Bishop(0);
 						break;
 					case 'd':
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new King(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new King(0);
 						break;
 					case 'e':
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Queen(1);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Queen(0);
 						break;
 				}
 			}
@@ -117,28 +117,28 @@ namespace Chess.Control
 			string moveError = null;
 
 			//First we check if there is even a piece in that spot.
-			if (gameGrid[move.StartCoordinate].OccupyingPiece != null)
+			if (GetSquare(move.StartCoordinate).OccupyingPiece != null)
 			{
 				//If there is a piece in the targeted space, we add it to the move object.
-				move.PieceMoved = gameGrid[move.StartCoordinate].OccupyingPiece;
+				move.PieceMoved = GetSquare(move.StartCoordinate).OccupyingPiece;
 
 				//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
-				if (gameGrid[move.StartCoordinate].OccupyingPiece.RangeOfMotion.Contains(move.EndCoordinate))
+				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotion.Contains(move.EndCoordinate))
 				{
 					//Finally, we check to see if moving the piece would result in putting the player in check.
 					//This is skipped for now, as we don't have that check written.
 					if (true) //Placeholder for the check validation
 					{
 						//Finally, we check to see if the piece we moved took another piece.
-						if (gameGrid[move.EndCoordinate].OccupyingPiece != null)
+						if (GetSquare(move.StartCoordinate).OccupyingPiece != null)
 						{
 							move.PieceTaken = true;
 						}
 
 						//Now that the checks are complete, and we're certain the move was successful,
 						//We need to execute the move command, and then archive it.
-						gameGrid[move.StartCoordinate].OccupyingPiece = null;
-						gameGrid[move.EndCoordinate].OccupyingPiece = move.PieceMoved;
+						GetSquare(move.StartCoordinate).OccupyingPiece = null;
+						GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
 						moveHistory.Add(move);
 					}
 					else
