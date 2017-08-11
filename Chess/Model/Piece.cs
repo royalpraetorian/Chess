@@ -10,20 +10,10 @@ namespace Chess.Model
 	{
 		public Coordinate CurrentPosition { get; set; }
 		public bool HasMoved { get; set; }
-		public Coordinate[] Threat
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
-		public Coordinate[] RangeOfMotion
-		{
-			get
-			{
-				throw new NotImplementedException();
-			}
-		}
+
+		abstract public Coordinate[] Threat { get; }
+		abstract public Coordinate[] RangeOfMotion { get; }
+
 		public int PlayerNumber { get; set; }
 
 		public Piece(int playerNumber)
