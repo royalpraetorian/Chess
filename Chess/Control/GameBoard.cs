@@ -69,10 +69,10 @@ namespace Chess.Control
 					case 5:
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Bishop(0);
 						break;
-					case 3:
+					case 4:
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new King(0);
 						break;
-					case 4:
+					case 3:
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Queen(0);
 						break;
 				}
@@ -95,13 +95,13 @@ namespace Chess.Control
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Knight(1);
 						break;
 					case 2:
-					case 3:
+					case 5:
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Bishop(1);
 						break;
 					case 4:
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new King(1);
 						break;
-					case 5:
+					case 3:
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Queen(1);
 						break;
 				}
