@@ -12,8 +12,27 @@ namespace Chess.Model.Ranks
 		{
 		}
 
-		public override Coordinate[] Threat => throw new NotImplementedException();
+		public override List<List<Coordinate>> Threat
+		{
+			get
+			{
+				return new List<List<Coordinate>>()
+				{
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, -1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, 1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(1, -1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(1, 1) ).Select(space => space.Key).ToList() },
 
-		public override Coordinate[] RangeOfMotion => throw new NotImplementedException();
+				};
+			}
+		}
+
+		public override List<List<Coordinate>> RangeOfMotion
+		{
+			get
+			{
+				return Threat;
+			}
+		}
 	}
 }

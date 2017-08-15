@@ -12,17 +12,25 @@ namespace Chess.Model.Ranks
 		{
 		}
 
-		public override Coordinate[] Threat
+		public override List<List<Coordinate>> Threat
 		{
 			get
 			{
-				return Control.GameBoard.gameGrid.Where(
-					space => (Math.Abs(space.Key.Column - this.CurrentPosition.Column) == 1 && Math.Abs(space.Key.Row - this.CurrentPosition.Row) == 2 ||
-					Math.Abs(space.Key.Column - this.CurrentPosition.Column) == 2 && Math.Abs(space.Key.Row - this.CurrentPosition.Row) == 1)).Select(space => space.Key).ToArray();
+				return new List<List<Coordinate>>()
+				{
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-2, CurrentPosition.Row-1)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-1, CurrentPosition.Row-2)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+2, CurrentPosition.Row+1)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+1, CurrentPosition.Row+2)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+2, CurrentPosition.Row-1)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-2, CurrentPosition.Row+1)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+1, CurrentPosition.Row-2)).Select(space => space.Key).ToList() },
+					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-1, CurrentPosition.Row+2)).Select(space => space.Key).ToList() }
+				};
 			}
 		}
 
-		public override Coordinate[] RangeOfMotion
+		public override List<List<Coordinate>> RangeOfMotion
 		{
 			get { return Threat; }
 		}

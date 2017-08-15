@@ -29,17 +29,35 @@ namespace Chess.Model
 
 		public static Coordinate operator +(Coordinate a, Coordinate b)
 		{
-			return new Coordinate((char)(a.Column + (b.Column-141)), a.Row + b.Row);
+			return new Coordinate((char)(a.Column + (b.Column)), a.Row + b.Row);
 		}
 
 		public static Coordinate operator -(Coordinate a, Coordinate b)
 		{
-			return new Coordinate((char)(a.Column-(b.Column-141)), a.Row - b.Row);
+			return new Coordinate((char)(a.Column-(b.Column)), a.Row - b.Row);
 		}
 
 		public static Coordinate operator /(Coordinate a, Coordinate b)
 		{
-			return new Coordinate((char)(a.Column/b.Column), a.Row / b.Row);
+			try
+			{
+				return new Coordinate((a.Column / b.Column), a.Row / b.Row);
+			}
+			catch(DivideByZeroException e)
+			{
+				if (b.Row==0 && b.Column!=0)
+				{
+					return new Coordinate(a.Column / b.Column, 0);
+				}
+				else if (b.Column==0 && b.Row!=0)
+				{
+					return new Coordinate(0, a.Row / b.Row);
+				}
+				else
+				{
+					return new Coordinate(0, 0);
+				}
+			}
 		}
 
 		public static Coordinate operator *(Coordinate a, Coordinate b)

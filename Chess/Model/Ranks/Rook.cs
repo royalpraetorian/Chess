@@ -10,17 +10,27 @@ namespace Chess.Model.Ranks
     {
         public Rook(int playerNumber) : base(playerNumber) { }
 
-        public override Coordinate[] Threat
+        public override List<List<Coordinate>> Threat
         {
             get
             {
-                return RangeOfMotion;
+				return new List<List<Coordinate>>()
+				{
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(0, 1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(1, 0) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(0, -1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, 0) ).Select(space => space.Key).ToList() },
+
+				};
             }
         }
 
-        public override Coordinate[] RangeOfMotion
+        public override List<List<Coordinate>> RangeOfMotion
         {
-            get { return Control.GameBoard.gameGrid.Where(space => (space.Key.Column == this.CurrentPosition.Column) || (space.Key.Row == this.CurrentPosition.Row)).Select(space => space.Key).ToArray(); }
+			get
+			{
+				return Threat;
+			}
         }
     }
 }
