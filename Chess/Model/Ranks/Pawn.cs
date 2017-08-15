@@ -5,55 +5,49 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Chess.Model.Ranks {
+namespace Chess.Model.Ranks
+{
+	public class Pawn : Piece
+	{
+		public override List<List<Coordinate>> Threat
+		{
+			get
+			{
+				int direction = (PlayerNumber == 0) ? 1 : -1;
+				List<List<Coordinate>> threat = new List<List<Coordinate>>();
+				if (this.CurrentPosition.Column + 1 < 8 && (this.CurrentPosition.Row + direction > 0 && this.CurrentPosition.Row + direction < 8))
+					threat.Add(new List<Coordinate>() { (new Coordinate((char)(CurrentPosition.Column + 1), CurrentPosition.Row + direction)) });
+				if (this.CurrentPosition.Column - 1 >= 0 && (this.CurrentPosition.Row + direction > 0 && this.CurrentPosition.Row + direction < 8))
+					threat.Add(new List<Coordinate>() { (new Coordinate((char)(CurrentPosition.Column - 1), CurrentPosition.Row + direction)) });
+				return threat;
+			}
+		}
 
-    public class Pawn : Piece {
+		public override List<List<Coordinate>> RangeOfMotion
+		{
+			get
+			{
+				int direction = (PlayerNumber == 0) ? 1 : -1;
+				List<List<Coordinate>> motion = new List<List<Coordinate>>();
 
-        public override List<List<Coordinate>> Threat {
-            get {
-                int direction = (PlayerNumber == 0) ? 1 : -1;
+				foreach (List<Coordinate> vector in Threat)
+				{
+					if (vector.Where(space => GameBoard.GetSquare(space).OccupyingPiece != null && GameBoard.GetSquare(space).OccupyingPiece.PlayerNumber != PlayerNumber).Count() > 0)
+						motion.Add(vector);
+				}
 
-                List<Coordinate> leftDiagonal = new List<Coordinate>() {
-                    CurrentPosition + new Coordinate(-1, direction)
-                };
-                List<Coordinate> rightDiagonal = new List<Coordinate>() {
-                    CurrentPosition + new Coordinate(1, direction)
-                };
+				List<Coordinate> forwardVector = new List<Coordinate> { new Coordinate(CurrentPosition.Column, CurrentPosition.Row + direction) };
+				if (!HasMoved)
+					forwardVector.Add(new Coordinate(CurrentPosition.Column, CurrentPosition.Row + (2 * direction)));
+				motion.Add(forwardVector);
 
-                List<List<Coordinate>> threat = new List<List<Coordinate>>() {
-                    leftDiagonal,
-                    rightDiagonal
-                };
+				return motion;
+			}
+		}
 
-                return threat;
-            }
-        }
+		public Pawn(int playerNumber) : base(playerNumber)
+		{
+		}
 
-        public override List<List<Coordinate>> RangeOfMotion {
-            get {
-                int direction = (PlayerNumber == 0) ? 1 : -1;
-                List<Coordinate> forwardMovement = new List<Coordinate>() {
-                    CurrentPosition + new Coordinate(0, direction)
-                };
-                if (!HasMoved) forwardMovement.Add(CurrentPosition + new Coordinate(0, 2 * direction));
-
-                List<List<Coordinate>> rangeOfMotion = new List<List<Coordinate>>() {
-                    forwardMovement
-                };
-
-                foreach (List<Coordinate> diagonalThreat in Threat) {
-                    Coordinate curCheck = diagonalThreat.ElementAt(0);
-
-                    if (GameBoard.GetSquare(curCheck).OccupyingPiece != null) {
-                        rangeOfMotion.Add(diagonalThreat);
-                    } 
-                }
-
-                return rangeOfMotion;
-            }
-        }
-
-        public Pawn(int playerNumber) : base(playerNumber) {}
-
-    }
+	}
 }
