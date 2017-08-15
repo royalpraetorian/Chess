@@ -27,6 +27,26 @@ namespace Chess.Model
 			return !(a == b);
 		}
 
+		public static Coordinate operator +(Coordinate a, Coordinate b)
+		{
+			return new Coordinate((char)(a.Column + (b.Column-141)), a.Row + b.Row);
+		}
+
+		public static Coordinate operator -(Coordinate a, Coordinate b)
+		{
+			return new Coordinate((char)(a.Column-(b.Column-141)), a.Row - b.Row);
+		}
+
+		public static Coordinate operator /(Coordinate a, Coordinate b)
+		{
+			return new Coordinate((char)(a.Column/b.Column), a.Row / b.Row);
+		}
+
+		public static Coordinate operator *(Coordinate a, Coordinate b)
+		{
+			return new Coordinate((char)(a.Column * b.Column), a.Row * b.Row);
+		}
+
 		public override bool Equals(object obj)
 		{
 			if (obj.GetType().Equals(typeof(Coordinate)))

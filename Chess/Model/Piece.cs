@@ -18,8 +18,8 @@ namespace Chess.Model
 		}
 		public bool HasMoved { get; set; }
 
-		abstract public Coordinate[,] Threat { get; }
-		abstract public Coordinate[,] RangeOfMotion { get; }
+		abstract public List<List<Coordinate>> Threat { get; }
+		abstract public List<List<Coordinate>> RangeOfMotion { get; }
 
 		public int PlayerNumber { get; set; }
 

@@ -10,18 +10,23 @@ namespace Chess.Model.Ranks
 	{
 		public Queen(int playerNumber) : base(playerNumber) { }
 
-		public override Coordinate[] Threat
+		public override List<List<Coordinate>> Threat
 		{
 			get
 			{
-				return Control.GameBoard.gameGrid.Where(
+				List<List<Coordinate>> threatRange = new List<List<Coordinate>>()
+				{
+					{Control.GameBoard.gameGrid.Where(space => ()).Select(space => space.Key).ToList() },
+				};
+				Control.GameBoard.gameGrid.Where(
 					space => (space.Key.Row-space.Key.Column == this.CurrentPosition.Row-this.CurrentPosition.Column) ||
 					(space.Key.Column==this.CurrentPosition.Column) ||
 					(space.Key.Row==this.CurrentPosition.Row)).Select(space => space.Key).ToArray();
+				return threatRange;
 			}
 		}
 
-		public override Coordinate[] RangeOfMotion
+		public override List<List<Coordinate>> RangeOfMotion
 		{
 			get
 			{
