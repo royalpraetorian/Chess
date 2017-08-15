@@ -16,12 +16,14 @@ namespace Chess.Model.Ranks
 			{
 				List<List<Coordinate>> threatRange = new List<List<Coordinate>>()
 				{
-					{Control.GameBoard.gameGrid.Where(space => ()).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, -1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate( 1, -1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, 1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(0, 1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(0, -1) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(1, 0) ).Select(space => space.Key).ToList() },
+					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, 0) ).Select(space => space.Key).ToList() }
 				};
-				Control.GameBoard.gameGrid.Where(
-					space => (space.Key.Row-space.Key.Column == this.CurrentPosition.Row-this.CurrentPosition.Column) ||
-					(space.Key.Column==this.CurrentPosition.Column) ||
-					(space.Key.Row==this.CurrentPosition.Row)).Select(space => space.Key).ToArray();
 				return threatRange;
 			}
 		}

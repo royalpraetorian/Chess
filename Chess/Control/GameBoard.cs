@@ -123,7 +123,7 @@ namespace Chess.Control
 				move.PieceMoved = GetSquare(move.StartCoordinate).OccupyingPiece;
 
 				//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
-				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotion.Contains(move.EndCoordinate))
+				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count()==1)
 				{
 					//Finally, we check to see if moving the piece would result in putting the player in check.
 					//This is skipped for now, as we don't have that check written.

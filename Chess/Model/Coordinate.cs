@@ -8,10 +8,10 @@ namespace Chess.Model
 {
 	public class Coordinate
 	{
-		public char Column { get; set; }
+		public int Column { get; set; }
 		public int Row { get; set; }
 
-		public Coordinate(char column, int row)
+		public Coordinate(int column, int row)
 		{
 			Column = column;
 			Row = row;
