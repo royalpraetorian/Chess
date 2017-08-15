@@ -23,12 +23,8 @@ namespace TestHarness
 		[TestMethod]
 		public void MovementTest()
 		{
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(4,1), new Coordinate(4,3))) == null);
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(4,0), new Coordinate(4,2))) != null);
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(4,0), new Coordinate(4,1))) == null);
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(4,1), new Coordinate(4,2))) == null);
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(3,0), new Coordinate(5,2))) == null);
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(5,0), new Coordinate(3,2))) == null);
+			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(3,1), new Coordinate(3, 3))) == null);
+			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(2,0), new Coordinate(4,2))) == null);
 		}
 	}
 }

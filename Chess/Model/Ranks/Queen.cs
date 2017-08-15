@@ -14,17 +14,15 @@ namespace Chess.Model.Ranks
 		{
 			get
 			{
-				List<List<Coordinate>> threatRange = new List<List<Coordinate>>()
-				{
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, -1) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate( 1, -1) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, 1) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(1, 1) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(0, 1) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(0, -1) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(1, 0) ).Select(space => space.Key).ToList() },
-					{Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition)/(new Coordinate(Math.Abs(space.Key.Column-CurrentPosition.Column), Math.Abs(space.Key.Row-CurrentPosition.Row) )) == new Coordinate(-1, 0) ).Select(space => space.Key).ToList() }
-				};
+				List<List<Coordinate>> threatRange = new List<List<Coordinate>>();
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(-1, -1)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(-1, 1)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(1, -1)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(1, 1)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(-1, 0)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(1, 0)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(0, 1)).Select(space => space.Key).ToList());
+				threatRange.Add(Control.GameBoard.gameGrid.Where(space => (space.Key - CurrentPosition) / (new Coordinate(Math.Abs(space.Key.Column - CurrentPosition.Column), Math.Abs(space.Key.Row - CurrentPosition.Row))) == new Coordinate(0, -1)).Select(space => space.Key).ToList());
 				return threatRange;
 			}
 		}
