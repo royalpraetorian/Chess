@@ -77,24 +77,29 @@ namespace Chess.Model
 						bool outOfBounds = false;
 						while (!outOfBounds)
 						{
-							if (!GameBoard.gameGrid.Keys.Contains(checkPosition))
+							if (!(GameBoard.gameGrid.Where(space => space.Key == checkPosition).Count() > 0))
 							{
 								outOfBounds = true;
 							}
-							if (GameBoard.GetSquare(checkPosition).OccupyingPiece == null)
+							else if (range.Where(space => space == checkPosition).Count() > 0)
 							{
-								rangeCollide.Add(checkPosition);
-								checkPosition += vector;
-							}
-							else if (GameBoard.GetSquare(checkPosition).OccupyingPiece.PlayerNumber==this.PlayerNumber)
-							{
-								outOfBounds = true;
+								if (GameBoard.GetSquare(checkPosition).OccupyingPiece == null)
+								{
+									rangeCollide.Add(checkPosition);
+									checkPosition += vector;
+								}
+								else if (GameBoard.GetSquare(checkPosition).OccupyingPiece.PlayerNumber == this.PlayerNumber)
+								{
+									outOfBounds = true;
+								}
+								else
+								{
+									rangeCollide.Add(checkPosition);
+									outOfBounds = true;
+								}
 							}
 							else
-							{
-								rangeCollide.Add(checkPosition);
 								outOfBounds = true;
-							}
 						}
 					}
 					collisionRange.Add(rangeCollide);
