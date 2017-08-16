@@ -33,7 +33,7 @@ namespace Chess.Model
 					Coordinate vector;
 					if (range.Count > 0)
 					{
-						vector = range[0] - CurrentPosition / (new Coordinate(Math.Abs(range[0].Column - CurrentPosition.Column), Math.Abs(range[0].Row-CurrentPosition.Row)));
+						vector = (range[0] - CurrentPosition) / (new Coordinate(Math.Abs(range[0].Column - CurrentPosition.Column), Math.Abs(range[0].Row-CurrentPosition.Row)));
 						Coordinate checkPosition = CurrentPosition + vector;
 						bool outOfBounds = false;
 						while (!outOfBounds)
