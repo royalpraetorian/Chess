@@ -298,3 +298,8 @@ __pycache__/
 *.odx.cs
 *.xsd.cs
 *.suo
+.vs/Chess/v15/.suo
+Chess/obj/Debug/CoreCompileInputs.cache
+Chess/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+TestHarness/obj/Debug/CoreCompileInputs.cache
+TestHarness/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
