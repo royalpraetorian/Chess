@@ -129,7 +129,7 @@ namespace Chess.Control
 					if (!KingCheck(GetSquare(move.StartCoordinate).OccupyingPiece.PlayerNumber))
 					{
 						//Finally, we check to see if the piece we moved took another piece.
-						if (GetSquare(move.StartCoordinate).OccupyingPiece != null) // Shouldn't this refer to the end coordinate??????????
+						if (GetSquare(move.EndCoordinate).OccupyingPiece != null)
 						{
                             move.PieceTook = GetSquare(move.StartCoordinate).OccupyingPiece; // Same concern as above 
                             move.PieceTaken = true;
