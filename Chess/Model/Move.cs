@@ -10,8 +10,7 @@ namespace Chess.Model
 	{
 		public Coordinate StartCoordinate { get; set; }
 		public Coordinate EndCoordinate { get; set; }
-		public bool PieceTaken { get; set; }
-        public Piece PieceTook { get; set; }
+		public Piece PieceTaken { get; set; }
         public Piece PieceMoved { get; set; }
 
 		public Move(Coordinate startCoordinate, Coordinate endCoordinate)
