@@ -125,28 +125,26 @@ namespace Chess.Control
 				//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
 				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count()==1)
 				{
-					//Finally, we check to see if moving the piece would result in putting the player in check.
-					if (!KingCheck(GetSquare(move.StartCoordinate).OccupyingPiece.PlayerNumber))
-					{
-						//Finally, we check to see if the piece we moved took another piece.
-						if (GetSquare(move.EndCoordinate).OccupyingPiece != null)
-						{
-                            move.PieceTook = GetSquare(move.StartCoordinate).OccupyingPiece; // Same concern as above 
-                            move.PieceTaken = true;
-						}
+                    if (GetSquare(move.EndCoordinate).OccupyingPiece != null) {
+                        move.PieceTaken = GetSquare(move.StartCoordinate).OccupyingPiece;
+                    }
+                    
+                    GetSquare(move.StartCoordinate).OccupyingPiece = null;
+                    GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
 
-						//Now that the checks are complete, and we're certain the move was successful,
-						//We need to execute the move command, and then archive it.
-						GetSquare(move.StartCoordinate).OccupyingPiece = null;
-						GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
-						move.PieceMoved.HasMoved = true;
-						moveHistory.Add(move);
+                    //Finally, we check to see if moving the piece would result in putting the player in check.
+                    if (KingCheck(GetSquare(move.StartCoordinate).OccupyingPiece.PlayerNumber))
+					{
+						moveError = "Moving the selected piece to the target space would put the player in check, and is therefore illegal.";
+                        GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceTaken;
+                        GetSquare(move.StartCoordinate).OccupyingPiece = move.PieceMoved;
 					}
 					else
 					{
-						moveError = "Moving the selected piece to the target space would put the player in check, and is therefore illegal.";
-					}
-				}
+                        move.PieceMoved.HasMoved = true;
+                        moveHistory.Add(move);
+                    }
+                }
 				else
 				{
 					moveError = "The target space was not within the selected piece's range of motion.";
