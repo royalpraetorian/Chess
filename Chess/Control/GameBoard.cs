@@ -126,13 +126,13 @@ namespace Chess.Control
 				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count()==1)
 				{
 					//Finally, we check to see if moving the piece would result in putting the player in check.
-					//This is skipped for now, as we don't have that check written.
-					if (true) //Placeholder for the check validation
+					if (!KingCheck(GetSquare(move.StartCoordinate).OccupyingPiece.PlayerNumber))
 					{
 						//Finally, we check to see if the piece we moved took another piece.
-						if (GetSquare(move.StartCoordinate).OccupyingPiece != null)
+						if (GetSquare(move.StartCoordinate).OccupyingPiece != null) // Shouldn't this refer to the end coordinate??????????
 						{
-							move.PieceTaken = true;
+                            move.PieceTook = GetSquare(move.StartCoordinate).OccupyingPiece; // Same concern as above 
+                            move.PieceTaken = true;
 						}
 
 						//Now that the checks are complete, and we're certain the move was successful,
@@ -159,5 +159,30 @@ namespace Chess.Control
 
 			return moveError;
 		}
+
+        public static bool KingCheck(int curPlayerToCheck) {
+
+            // This query should only return 1 result, since there is only 1 king on the opposing player's side
+            // Thus, indexing at 0 should be appropriate in this case to access the value
+            Coordinate curPlayerKingPosition = gameGrid.Where(
+                space => space.Value.OccupyingPiece != null 
+                && space.Value.OccupyingPiece.PlayerNumber != curPlayerToCheck
+                && space.Value.OccupyingPiece.GetType() == typeof(King)).ToArray()[0].Key;
+
+            // Getting all of the spaces that contain pieces possessed by the opponent 
+            List<KeyValuePair<Coordinate, Space>> opponentTerritory = gameGrid.Where(
+                square => square.Value.OccupyingPiece != null && square.Value.OccupyingPiece.PlayerNumber != curPlayerToCheck).ToList();
+
+            // Here, we're checking if any pieces in the opposing team can take this player's king
+            foreach (KeyValuePair<Coordinate, Space> territory in opponentTerritory) {
+                Piece threateningPiece = territory.Value.OccupyingPiece;
+                foreach (List<Coordinate> threatDirection in threateningPiece.ThreatCollide) {
+
+                    // If the opposing piece has the current player's king in it's line of threat, it will return as being in check
+                    if (threatDirection.Contains(curPlayerKingPosition)) return true;
+                }
+            }
+            return false;
+        }
 	}
 }
