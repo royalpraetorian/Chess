@@ -26,5 +26,11 @@ namespace TestHarness
 			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(3,1), new Coordinate(3, 3))) == null);
 			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(2,0), new Coordinate(4,2))) == null);
 		}
+
+        [TestMethod]
+        public void CheckTest() {
+            GameBoard.ResetBoard();
+
+        }
 	}
 }
