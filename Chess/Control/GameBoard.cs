@@ -8,9 +8,15 @@ using System.Threading.Tasks;
 
 namespace Chess.Control
 {
-	public static class GameBoard
-	{
-		public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
+    public static class GameBoard
+    {
+        // -- Turn event, all Spaces subscribe to it
+        //public event void TurnStep();
+            
+
+
+
+        public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
 		public static Space GetSquare(int column, int row)
 		{
 			return gameGrid.Where(square => square.Key == new Coordinate(column, row)).First().Value;

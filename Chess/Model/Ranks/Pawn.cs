@@ -22,7 +22,7 @@ namespace Chess.Model.Ranks
 				return threat;
 			}
 		}
-
+        // Add check logic for phantom pawn in RoM method
 		public override List<List<Coordinate>> RangeOfMotion
 		{
 			get
