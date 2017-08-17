@@ -1,4 +1,5 @@
 ﻿using Chess.Control;
+using Chess.Model.Ranks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Chess.Model
 {
 	public abstract class Piece
 	{
+		public Player OwningPlayer { get; set; }
 		public Coordinate CurrentPosition
 		{
 			get
@@ -124,7 +126,84 @@ namespace Chess.Model
 				 *	- If this piece is not between the king and the potential threat, the move is invalid.
 				 *	- If there are no other pieces between the king and the potential threat besides this piece, the move is invalid.
 				 */
-				throw new NotImplementedException();
+
+				//Construct a list of vectors to return.
+				List<List<Coordinate>> validMoves = new List<List<Coordinate>>();
+
+				//We should cache a list of all enemy vectors that contain both this piece and its king.
+				List<Piece> potentialThreats = GameBoard.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
+				space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
+				space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
+				vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+				square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
+				square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
+				).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
+				).Select(space => space.OccupyingPiece).ToList(); //Return only the pieces, and convert the collection to a list.
+
+				//This dictionary stores all valid vectors of threat, and the pieces that create them.
+				Dictionary<List<Coordinate>, Piece> validThreats = new Dictionary<List<Coordinate>, Piece>();
+
+				//We need to winnow this collection down to pieces where this piece is between the potential threat and the king.
+				foreach(Piece potentialThreat in potentialThreats)
+				{
+					//Ensure there are no pieces between the potentialThreat and the king other than this piece.
+					bool validThreat = true;
+
+					//Iterate through the ThreatCollide of that piece and find the applicable avenues of threat.
+					foreach(List<Coordinate> vector in potentialThreat.ThreatCollide)
+					{
+						//Get a vector that will lead us from the king to the potential threat.
+						Coordinate direction = Coordinate.GetVector(OwningPlayer.King.CurrentPosition, potentialThreat.CurrentPosition);
+						
+						//Initialize a variable to store our current position as we incriment.
+						Coordinate checkPosition = OwningPlayer.King.CurrentPosition + direction;
+
+						//We stop when we reach the current position of the threatening peice.
+						while (checkPosition!=potentialThreat.CurrentPosition)
+						{
+							//If we encounter another piece, we incriment 
+							if (GameBoard.GetSquare(checkPosition).OccupyingPiece != null && GameBoard.GetSquare(checkPosition).OccupyingPiece != this)
+							{
+								//If even one piece other than this piece is between the king and the potential threat, it is not a valid threat.
+								validThreat = false;
+								break;
+							}
+						}
+
+						if (validThreat)
+							validThreats.Add(vector, potentialThreat);
+					}
+				}
+
+				/*
+				 * We now have a dictionary of all the vectors that might potentially prevent this piece from moving.
+				 * Next we need to check every spot this piece can move to. If that spot isn't contained within EVERY vector of threat, it is not a valid move.
+				 */ 
+
+				//We need to iterate through each coordinate in CollisionMoves.
+				foreach(List<Coordinate> vector in CollisionMoves)
+				{
+					//We need a new list to store all valid moves in a given direction.
+					List<Coordinate> vectorWithValidation = new List<Coordinate>();
+					foreach(Coordinate potentialDestination in vector)
+					{
+						bool validMove = true;
+						//Iterate through all the valid vectors of threat.
+						foreach(KeyValuePair<List<Coordinate>, Piece> threatVector in validThreats)
+						{
+							//Check that the piece is trying to move outside of the line of threat, and it's not taking the piece generating that line of threat. 
+							if (!threatVector.Key.Contains(potentialDestination) && potentialDestination!=threatVector.Value.CurrentPosition)
+								validMove = false;
+						}
+
+						//If validMove is still true by the end of the above loop, then the potentialDestination has appeared in every threat vector, and is therefore a valid move.
+						if (validMove)
+							vectorWithValidation.Add(potentialDestination);
+					}
+					validMoves.Add(vectorWithValidation);
+				}
+
+				return validMoves;
 			}
 		}
 
@@ -143,14 +222,93 @@ namespace Chess.Model
 				 *	- If this piece is not between the king and the potential threat, the move is invalid.
 				 *	- If there are no other pieces between the king and the potential threat besides this piece, the move is invalid.
 				 */
-				throw new NotImplementedException();
+
+				//Construct a list of vectors to return.
+				List<List<Coordinate>> validMoves = new List<List<Coordinate>>();
+
+				//We should cache a list of all enemy vectors that contain both this piece and its king.
+				List<Piece> potentialThreats = GameBoard.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
+				space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
+				space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
+				vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+				square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
+				square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
+				).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
+				).Select(space => space.OccupyingPiece).ToList(); //Return only the pieces, and convert the collection to a list.
+
+				//This dictionary stores all valid vectors of threat, and the pieces that create them.
+				Dictionary<List<Coordinate>, Piece> validThreats = new Dictionary<List<Coordinate>, Piece>();
+
+				//We need to winnow this collection down to pieces where this piece is between the potential threat and the king.
+				foreach (Piece potentialThreat in potentialThreats)
+				{
+					//Ensure there are no pieces between the potentialThreat and the king other than this piece.
+					bool validThreat = true;
+
+					//Iterate through the ThreatCollide of that piece and find the applicable avenues of threat.
+					foreach (List<Coordinate> vector in potentialThreat.ThreatCollide)
+					{
+						//Get a vector that will lead us from the king to the potential threat.
+						Coordinate direction = Coordinate.GetVector(OwningPlayer.King.CurrentPosition, potentialThreat.CurrentPosition);
+
+						//Initialize a variable to store our current position as we incriment.
+						Coordinate checkPosition = OwningPlayer.King.CurrentPosition + direction;
+
+						//We stop when we reach the current position of the threatening peice.
+						while (checkPosition != potentialThreat.CurrentPosition)
+						{
+							//If we encounter another piece, we incriment 
+							if (GameBoard.GetSquare(checkPosition).OccupyingPiece != null && GameBoard.GetSquare(checkPosition).OccupyingPiece != this)
+							{
+								//If even one piece other than this piece is between the king and the potential threat, it is not a valid threat.
+								validThreat = false;
+								break;
+							}
+						}
+
+						if (validThreat)
+							validThreats.Add(vector, potentialThreat);
+					}
+				}
+
+				/*
+				 * We now have a dictionary of all the vectors that might potentially prevent this piece from moving.
+				 * Next we need to check every spot this piece can move to. If that spot isn't contained within EVERY vector of threat, it is not a valid move.
+				 */
+
+				//We need to iterate through each coordinate in CollisionMoves.
+				foreach (List<Coordinate> vector in CollisionMoves)
+				{
+					//We need a new list to store all valid moves in a given direction.
+					List<Coordinate> vectorWithValidation = new List<Coordinate>();
+					foreach (Coordinate potentialDestination in vector)
+					{
+						bool validMove = true;
+						//Iterate through all the valid vectors of threat.
+						foreach (KeyValuePair<List<Coordinate>, Piece> threatVector in validThreats)
+						{
+							//Check that the piece is trying to move outside of the line of threat, and it's not taking the piece generating that line of threat.
+							if (!threatVector.Key.Contains(potentialDestination) && potentialDestination != threatVector.Value.CurrentPosition)
+								validMove = false;
+						}
+
+						//If validMove is still true by the end of the above loop, then the potentialDestination has appeared in every threat vector, and is therefore a valid move.
+						if (validMove)
+							vectorWithValidation.Add(potentialDestination);
+					}
+					validMoves.Add(vectorWithValidation);
+				}
+
+				return validMoves;
 			}
 		}
 		public int PlayerNumber { get; set; }
+		public IEnumerable<List<Coordinate>> CollisionMoves { get; private set; }
 
-		public Piece(int playerNumber)
+		public Piece(int playerNumber, Player player)
 		{
 			PlayerNumber = playerNumber;
+			OwningPlayer = player;
 		}
 	}
 }

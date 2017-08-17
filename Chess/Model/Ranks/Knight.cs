@@ -8,7 +8,7 @@ namespace Chess.Model.Ranks
 {
 	public class Knight : Piece
 	{
-		public Knight(int playerNumber) : base(playerNumber)
+		public Knight(int playerNumber, Player player) : base(playerNumber, player)
 		{
 		}
 

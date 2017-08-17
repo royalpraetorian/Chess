@@ -46,6 +46,7 @@
     <Compile Include="Model\Coordinate.cs" />
     <Compile Include="Model\Move.cs" />
     <Compile Include="Model\Piece.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="Model\Ranks\Bishop.cs" />
     <Compile Include="Model\Ranks\King.cs" />
     <Compile Include="Model\Ranks\Knight.cs" />

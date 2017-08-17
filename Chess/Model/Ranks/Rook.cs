@@ -8,9 +8,11 @@ namespace Chess.Model.Ranks
 {
     public class Rook : Piece
     {
-        public Rook(int playerNumber) : base(playerNumber) { }
+        public Rook(int playerNumber, Player player) : base(playerNumber, player)
+		{
+		}
 
-        public override List<List<Coordinate>> Threat
+		public override List<List<Coordinate>> Threat
         {
 			get
 			{

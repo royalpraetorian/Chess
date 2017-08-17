@@ -45,7 +45,7 @@ namespace Chess.Model.Ranks
 			}
 		}
 
-		public Pawn(int playerNumber) : base(playerNumber)
+		public Pawn(int playerNumber, Player player) : base(playerNumber, player)
 		{
 		}
 
