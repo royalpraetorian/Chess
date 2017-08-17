@@ -15,7 +15,11 @@ namespace Chess.Control
         public delegate void SpacePassantDelegate();
         public static event SpacePassantDelegate TurnStep;
 
-        public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
+		public static Player White { get; set; } = new Player();
+
+		public static Player Black { get; set; } = new Player();
+
+		public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
 		public static Space GetSquare(int column, int row)
 		{
 			return gameGrid.Where(square => square.Key == new Coordinate(column, row)).First().Value;
@@ -59,27 +63,40 @@ namespace Chess.Control
 			//Runs through every column and populates the correct rows with pawns, or other pieces based on a switch.
 			for (int column = 0; column<8; column++)
 			{
+				Pawn pawn = new Pawn(0, White);
+				White.Pieces.Add(pawn);
 				Coordinate square = gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 1).First().Key;
-				gameGrid[square].OccupyingPiece = new Pawn(0);
+				gameGrid[square].OccupyingPiece = pawn;
 				switch (column)
 				{
 					case 0:
 					case 7:
-						gameGrid.Where(space => space.Key.Column==column && space.Key.Row==0).First().Value.OccupyingPiece = new Rook(0);
+						Rook rook = new Rook(0, White);
+						White.Pieces.Add(rook);
+						gameGrid.Where(space => space.Key.Column==column && space.Key.Row==0).First().Value.OccupyingPiece = rook;
 						break;
 					case 1:
 					case 6:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Knight(0);
+						Knight knight = new Knight(0, White);
+						White.Pieces.Add(knight);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = knight;
 						break;
 					case 2:
 					case 5:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Bishop(0);
+						Bishop bishop = new Bishop(0, White);
+						White.Pieces.Add(bishop);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = bishop;
 						break;
 					case 4:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new King(0);
+						King king = new King(0, White);
+						White.Pieces.Add(king);
+						White.King = king;
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = king;
 						break;
 					case 3:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = new Queen(0);
+						Queen queen = new Queen(0, White);
+						White.Pieces.Add(queen);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = queen;
 						break;
 				}
 			}
@@ -89,26 +106,39 @@ namespace Chess.Control
 		{
 			for (int column = 0; column < 7; column++)
 			{
-				gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 6).First().Value.OccupyingPiece = new Pawn(1);
+				Pawn pawn = new Pawn(1, Black);
+				Black.Pieces.Add(pawn);
+				gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 6).First().Value.OccupyingPiece = pawn;
 				switch (column)
 				{
 					case 0:
 					case 7:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Rook(1);
+						Rook rook = new Rook(1, Black);
+						Black.Pieces.Add(rook);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = rook;
 						break;
 					case 1:
 					case 6:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Knight(1);
+						Knight knight = new Knight(1, Black);
+						Black.Pieces.Add(knight);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = knight;
 						break;
 					case 2:
 					case 5:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Bishop(1);
+						Bishop bishop = new Bishop(1, Black);
+						Black.Pieces.Add(bishop);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = bishop;
 						break;
 					case 4:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new King(1);
+						King king = new King(1, Black);
+						Black.King = king;
+						Black.Pieces.Add(king);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = king;
 						break;
 					case 3:
-						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = new Queen(1);
+						Queen queen = new Queen(1, Black);
+						Black.Pieces.Add(queen);
+						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = queen;
 						break;
 				}
 			}
