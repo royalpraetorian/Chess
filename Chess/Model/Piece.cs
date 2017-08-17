@@ -132,13 +132,15 @@ namespace Chess.Model
 
 				//We should cache a list of all enemy vectors that contain both this piece and its king.
 				List<Piece> potentialThreats = GameBoard.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
-				space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
-				space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
-				vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
-				square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
-				square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
-				).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
-				).Select(space => space.OccupyingPiece).ToList(); //Return only the pieces, and convert the collection to a list.
+					space.OccupyingPiece != null && //Make sure the space has a piece.
+					space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
+					space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
+					vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+					square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
+					square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
+					).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
+					).Select(space => space.OccupyingPiece).ToList(); //Return only the pieces, and convert the collection to a list.
+
 
 				//This dictionary stores all valid vectors of threat, and the pieces that create them.
 				Dictionary<List<Coordinate>, Piece> validThreats = new Dictionary<List<Coordinate>, Piece>();
@@ -168,6 +170,8 @@ namespace Chess.Model
 								validThreat = false;
 								break;
 							}
+
+							checkPosition += direction;
 						}
 
 						if (validThreat)
@@ -181,7 +185,7 @@ namespace Chess.Model
 				 */ 
 
 				//We need to iterate through each coordinate in CollisionMoves.
-				foreach(List<Coordinate> vector in CollisionMoves)
+				foreach(List<Coordinate> vector in RangeOfMotionCollide)
 				{
 					//We need a new list to store all valid moves in a given direction.
 					List<Coordinate> vectorWithValidation = new List<Coordinate>();
@@ -228,13 +232,14 @@ namespace Chess.Model
 
 				//We should cache a list of all enemy vectors that contain both this piece and its king.
 				List<Piece> potentialThreats = GameBoard.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
-				space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
-				space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
-				vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
-				square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
-				square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
-				).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
-				).Select(space => space.OccupyingPiece).ToList(); //Return only the pieces, and convert the collection to a list.
+					space.OccupyingPiece != null && //Make sure the space has a piece.
+					space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
+					space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
+					vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+					square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
+					square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
+					).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
+					).Select(space => space.OccupyingPiece).ToList(); //Return only the pieces, and convert the collection to a list.
 
 				//This dictionary stores all valid vectors of threat, and the pieces that create them.
 				Dictionary<List<Coordinate>, Piece> validThreats = new Dictionary<List<Coordinate>, Piece>();
@@ -264,6 +269,8 @@ namespace Chess.Model
 								validThreat = false;
 								break;
 							}
+
+							checkPosition += direction;
 						}
 
 						if (validThreat)
@@ -277,7 +284,7 @@ namespace Chess.Model
 				 */
 
 				//We need to iterate through each coordinate in CollisionMoves.
-				foreach (List<Coordinate> vector in CollisionMoves)
+				foreach (List<Coordinate> vector in ThreatCollide)
 				{
 					//We need a new list to store all valid moves in a given direction.
 					List<Coordinate> vectorWithValidation = new List<Coordinate>();
@@ -303,7 +310,6 @@ namespace Chess.Model
 			}
 		}
 		public int PlayerNumber { get; set; }
-		public IEnumerable<List<Coordinate>> CollisionMoves { get; private set; }
 
 		public Piece(int playerNumber, Player player)
 		{
