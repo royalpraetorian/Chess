@@ -109,6 +109,43 @@ namespace Chess.Model
 			}
 		}
 
+		public List<List<Coordinate>> ValidRangeOfMotion
+		{
+			get
+			{
+				/*
+				 * Take in this piece's range of motion including threat.
+				 * Treat each piece as though it were a destination.
+				 * Run the following checks to determine if it's a valid destination. If yes, add it back to the list.
+				 * 1. Check each enemy piece's ThreatCollide vectors to see if they contain this piece, and its king, and not the destination.
+				 * 2. For all vectors that pass check 1, make sure the current piece is between the threatening piece and the king, and there are no other pieces between them.
+				 *	- Find the vector between the king's position and the threatening piece's. Check from the king to the threatening piece.
+				 *	- If there are any pieces other than this piece between the king and the potential threat, this piece can move to that destination.
+				 *	- If this piece is not between the king and the potential threat, the move is invalid.
+				 *	- If there are no other pieces between the king and the potential threat besides this piece, the move is invalid.
+				 */
+				throw new NotImplementedException();
+			}
+		}
+
+		public List<List<Coordinate>> ValidThreat
+		{
+			get
+			{
+				/*
+				 * Take in this piece's range of motion including threat.
+				 * Treat each piece as though it were a destination.
+				 * Run the following checks to determine if it's a valid destination. If yes, add it back to the list.
+				 * 1. Check each enemy piece's ThreatCollide vectors to see if they contain this piece, and its king, and not the destination.
+				 * 2. For all vectors that pass check 1, make sure the current piece is between the threatening piece and the king, and there are no other pieces between them.
+				 *	- Find the vector between the king's position and the threatening piece's. Check from the king to the threatening piece.
+				 *	- If there are any pieces other than this piece between the king and the potential threat, this piece can move to that destination.
+				 *	- If this piece is not between the king and the potential threat, the move is invalid.
+				 *	- If there are no other pieces between the king and the potential threat besides this piece, the move is invalid.
+				 */
+				throw new NotImplementedException();
+			}
+		}
 		public int PlayerNumber { get; set; }
 
 		public Piece(int playerNumber)
