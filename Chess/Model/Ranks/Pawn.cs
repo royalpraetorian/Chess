@@ -32,7 +32,7 @@ namespace Chess.Model.Ranks
 
 				foreach (List<Coordinate> vector in Threat)
 				{
-					if (vector.Where(space => GameBoard.GetSquare(space).OccupyingPiece != null && GameBoard.GetSquare(space).OccupyingPiece.PlayerNumber != PlayerNumber).Count() > 0)
+					if (vector.Where(space => (GameBoard.GetSquare(space).OccupyingPiece != null || GameBoard.GetSquare(space).PhantomPawn != null) && GameBoard.GetSquare(space).OccupyingPiece.PlayerNumber != PlayerNumber).Count() > 0)
 						motion.Add(vector);
 				}
 
