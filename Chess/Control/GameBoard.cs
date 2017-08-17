@@ -10,11 +10,10 @@ namespace Chess.Control
 {
     public static class GameBoard
     {
-        // -- Turn event, all Spaces subscribe to it
-        //public event void TurnStep();
-            
+        // -- Turn event, all Spaces subscribe to it, currently used for en passant
 
-
+        public delegate void SpacePassantDelegate();
+        public static event SpacePassantDelegate TurnStep;
 
         public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
 		public static Space GetSquare(int column, int row)
@@ -29,6 +28,7 @@ namespace Chess.Control
 		static GameBoard()
 		{
 			ResetBoard();
+
 		}
 		public static void ResetBoard()
 		{
