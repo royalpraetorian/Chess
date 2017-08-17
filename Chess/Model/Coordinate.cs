@@ -27,6 +27,19 @@ namespace Chess.Model
 			return !(a == b);
 		}
 
+		/// <summary>
+		/// This method calculates the direction in which you will have to move to get from a to b.
+		/// </summary>
+		/// <param name="a">Starting position</param>
+		/// <param name="b">Destination</param>
+		/// <returns>A coordinate which may be added to the starting position to reach the ending position.</returns>
+		public static Coordinate GetVector(Coordinate a, Coordinate b)
+		{
+			Coordinate vector = b - a;
+			vector /= new Coordinate(Math.Abs(vector.Column), Math.Abs(vector.Row));
+			return vector;
+		}
+
 		public static Coordinate operator +(Coordinate a, Coordinate b)
 		{
 			return new Coordinate((a.Column + (b.Column)), a.Row + b.Row);
