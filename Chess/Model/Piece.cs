@@ -214,12 +214,14 @@ namespace Chess.Model
 				//Now we need to check if the king is threatened.
 				if (OwningPlayer.King.Threatened)
 				{
+					List<List<Coordinate>> validMovesTemp = new List<List<Coordinate>>();
 					//Get all the vectors and pieces that threaten the king presently.
 					Dictionary<List<Coordinate>, Piece> checkVectors = OwningPlayer.King.IncommingThreat;
 
 					//Loop through all valid moves.
-					foreach(List<Coordinate> vector in validMoves)
+					foreach(List<Coordinate> vector in validMoves.Where(v => v.Count() > 0))
 					{
+						List<Coordinate> vectorTemp = new List<Coordinate>();
 						//Loop through all the coordinates.
 						foreach(Coordinate square in vector)
 						{
@@ -232,10 +234,13 @@ namespace Chess.Model
 									validMove = false;
 								}
 							}
-							if (!validMove)
-								vector.Remove(square);
+							if (validMove)
+								vectorTemp.Add(square);
 						}
+						validMovesTemp.Add(vectorTemp);
 					}
+
+					validMoves = validMovesTemp;
 				}
 
 				return validMoves;
@@ -337,6 +342,33 @@ namespace Chess.Model
 					validMoves.Add(vectorWithValidation);
 				}
 
+				//Now we need to check if the king is threatened.
+				if (OwningPlayer.King.Threatened)
+				{
+					//Get all the vectors and pieces that threaten the king presently.
+					Dictionary<List<Coordinate>, Piece> checkVectors = OwningPlayer.King.IncommingThreat;
+
+					//Loop through all valid moves.
+					foreach (List<Coordinate> vector in validMoves)
+					{
+						//Loop through all the coordinates.
+						foreach (Coordinate square in vector)
+						{
+							//Make sure it exists in every checkVector, or that it is the square of the threatening piece.
+							bool validMove = true;
+							foreach (KeyValuePair<List<Coordinate>, Piece> checkVector in checkVectors)
+							{
+								if (!checkVector.Key.Contains(square) && checkVector.Value.CurrentPosition != square)
+								{
+									validMove = false;
+								}
+							}
+							if (!validMove)
+								vector.Remove(square);
+						}
+					}
+				}
+
 				return validMoves;
 			}
 		}
@@ -381,7 +413,7 @@ namespace Chess.Model
 					{
 						//If that threatcollide contains this piece, add it to the dictionary.
 						if (vector.Contains(CurrentPosition))
-							IncommingThreat.Add(vector, enemyPiece);
+							incommingThreat.Add(vector, enemyPiece);
 					}
 				}
 
