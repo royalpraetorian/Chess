@@ -48,7 +48,7 @@ namespace Chess.Model.Ranks
 				foreach(List<Coordinate> vector in baseRange)
 				{
 					//Make sure there's a square in the vector, then make sure there are no allied pieces there.
-					if (vector.Count > 0 && (Control.GameBoard.GetSquare(vector[0]).OccupyingPiece!=null || Control.GameBoard.GetSquare(vector[0]).OccupyingPiece.OwningPlayer!=OwningPlayer))
+					if (vector.Count > 0 && (Control.GameBoard.GetSquare(vector[0]).OccupyingPiece==null || Control.GameBoard.GetSquare(vector[0]).OccupyingPiece.OwningPlayer!=OwningPlayer))
 					{
 						retVal.Add(vector);
 					}
