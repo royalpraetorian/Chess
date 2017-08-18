@@ -14,9 +14,12 @@ namespace Chess.View
         public static string BoardPrint()
         {
             StringBuilder boardString = new StringBuilder();
-            //boardString.Append("- - - - - - - - - -");
+            boardString.Append("    0   1   2   3   4   5   6   7   \n");
+            boardString.Append("    -   -   -   -   -   -   -   -\n");
+            int rowCheck = 0;
             for (int c = 0; c < 8; c++)
             {
+                boardString.Append(rowCheck + " ");
                 for (int r = 0; r < 8; r++)
                 {
                     if (GameBoard.GetSquare(r, c).OccupyingPiece != null)
@@ -29,7 +32,9 @@ namespace Chess.View
                     }
                     //boardString.Append("|");
                 }
-                boardString.Append("\n");
+                rowCheck++;
+                boardString.Append("|\n");
+                boardString.Append("    -   -   -   -   -   -   -   -\n");
             }
             return boardString.ToString();
         }
