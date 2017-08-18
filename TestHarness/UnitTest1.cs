@@ -23,7 +23,8 @@ namespace TestHarness
 		[TestMethod]
 		public void MovementTest()
 		{
-			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(3,1), new Coordinate(3, 3))) == null);
+			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(3,1), new Coordinate(3, 4))) != null);
+			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(3, 1), new Coordinate(3, 3))) == null);
 			Assert.IsTrue(GameBoard.MovePiece(new Move(new Coordinate(2,0), new Coordinate(4,2))) == null);
 		}
 
@@ -38,9 +39,9 @@ namespace TestHarness
 		{
 			GameBoard.ResetBoard();
 			GameBoard.gameGrid = new System.Collections.Generic.Dictionary<Coordinate, Space>();
-			for (int column = 0; column < 7; column++)
+			for (int column = 0; column < 8; column++)
 			{
-				for (int row = 0; row<7; row++)
+				for (int row = 0; row<8; row++)
 				{
 					GameBoard.gameGrid.Add(new Coordinate(column, row), new Space());
 				}
