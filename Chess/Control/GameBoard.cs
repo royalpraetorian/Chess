@@ -161,25 +161,33 @@ namespace Chess.Control
 				//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
 				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count()==1)
 				{
-                    if (GetSquare(move.EndCoordinate).OccupyingPiece != null) {
-                        move.PieceTaken = GetSquare(move.StartCoordinate).OccupyingPiece;
-                    }
-                    
-                    GetSquare(move.StartCoordinate).OccupyingPiece = null;
-                    GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
-
-                    //Finally, we check to see if moving the piece would result in putting the player in check.
-                    if (KingCheck(GetSquare(move.StartCoordinate).OccupyingPiece.PlayerNumber))
+					//Finally, we check if the piece can move there without putting its king in check.
+					if (move.PieceMoved.MoveContains(move.EndCoordinate, move.PieceMoved.ValidRangeOfMotion))
 					{
-						moveError = "Moving the selected piece to the target space would put the player in check, and is therefore illegal.";
-                        GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceTaken;
-                        GetSquare(move.StartCoordinate).OccupyingPiece = move.PieceMoved;
+						//Check for pawn double-move.
+						if (move.PieceMoved.GetType().Equals(typeof(Pawn)))
+						{
+							//Get the current space and the end space, and make sure they are more than one away from each other
+							if (Math.Abs(move.EndCoordinate.Row - move.StartCoordinate.Row) == 2)
+							{
+								//TODO Place the phantom pawn.
+							}
+						}
+
+						//Check the destination to see if a piece gets taken.
+						if (GetSquare(move.EndCoordinate)!=null)
+						{
+							move.PieceTaken = GetSquare(move.EndCoordinate).OccupyingPiece;
+						}
+
+						//If we're here, then all the checks have passed and we can move the piece.
+						GetSquare(move.StartCoordinate).OccupyingPiece = null;
+						GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
 					}
 					else
 					{
-                        move.PieceMoved.HasMoved = true;
-                        moveHistory.Add(move);
-                    }
+						moveError = "Moving there would place the piece's king in check.";
+					}
                 }
 				else
 				{
