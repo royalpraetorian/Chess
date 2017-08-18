@@ -30,6 +30,33 @@ namespace Chess.Model.Ranks
 			}
 		}
 
+		public override List<List<Coordinate>> ThreatCollide
+		{
+			get
+			{
+				return Threat;
+			}
+		}
+
+		public override List<List<Coordinate>> RangeOfMotionCollide
+		{
+			get
+			{
+				//Knights are really easy. If there's a piece in the square, it can't move there. Otherwise, it can.
+				List<List<Coordinate>> baseRange = RangeOfMotion;
+				List<List<Coordinate>> retVal = new List<List<Coordinate>>();
+				foreach(List<Coordinate> vector in baseRange)
+				{
+					//Make sure there's a square in the vector, then make sure there are no allied pieces there.
+					if (vector.Count > 0 && (Control.GameBoard.GetSquare(vector[0]).OccupyingPiece==null || Control.GameBoard.GetSquare(vector[0]).OccupyingPiece.OwningPlayer!=OwningPlayer))
+					{
+						retVal.Add(vector);
+					}
+				}
+				return retVal;
+			}
+		}
+
 		public override List<List<Coordinate>> RangeOfMotion
 		{
 			get { return Threat; }

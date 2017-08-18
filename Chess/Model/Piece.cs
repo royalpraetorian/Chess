@@ -23,7 +23,7 @@ namespace Chess.Model
 		abstract public List<List<Coordinate>> Threat { get; }
 		abstract public List<List<Coordinate>> RangeOfMotion { get; }
 
-		public List<List<Coordinate>> ThreatCollide
+		public virtual List<List<Coordinate>> ThreatCollide
 		{
 			get
 			{
@@ -61,7 +61,7 @@ namespace Chess.Model
 				return threatWithCollision;
 			}
 		}
-		public List<List<Coordinate>> RangeOfMotionCollide
+		public virtual List<List<Coordinate>> RangeOfMotionCollide
 		{
 			get
 			{
@@ -136,6 +136,7 @@ namespace Chess.Model
 					space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
 					space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
 					vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+					square.OccupyingPiece != null && //Ensure the space is not empty.
 					square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
 					square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
 					).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
@@ -152,30 +153,33 @@ namespace Chess.Model
 					bool validThreat = true;
 
 					//Iterate through the ThreatCollide of that piece and find the applicable avenues of threat.
-					foreach(List<Coordinate> vector in potentialThreat.ThreatCollide)
+					foreach(List<Coordinate> vector in potentialThreat.Threat)
 					{
-						//Get a vector that will lead us from the king to the potential threat.
-						Coordinate direction = Coordinate.GetVector(OwningPlayer.King.CurrentPosition, potentialThreat.CurrentPosition);
-						
-						//Initialize a variable to store our current position as we incriment.
-						Coordinate checkPosition = OwningPlayer.King.CurrentPosition + direction;
-
-						//We stop when we reach the current position of the threatening peice.
-						while (checkPosition!=potentialThreat.CurrentPosition)
+						if (vector.Contains(CurrentPosition) && vector.Contains(OwningPlayer.King.CurrentPosition))
 						{
-							//If we encounter another piece, we incriment 
-							if (GameBoard.GetSquare(checkPosition).OccupyingPiece != null && GameBoard.GetSquare(checkPosition).OccupyingPiece != this)
+							//Get a vector that will lead us from the king to the potential threat.
+							Coordinate direction = Coordinate.GetVector(OwningPlayer.King.CurrentPosition, potentialThreat.CurrentPosition);
+
+							//Initialize a variable to store our current position as we incriment.
+							Coordinate checkPosition = OwningPlayer.King.CurrentPosition + direction;
+
+							//We stop when we reach the current position of the threatening peice.
+							while (checkPosition != potentialThreat.CurrentPosition)
 							{
-								//If even one piece other than this piece is between the king and the potential threat, it is not a valid threat.
-								validThreat = false;
-								break;
+								//If we encounter another piece, we incriment 
+								if (GameBoard.GetSquare(checkPosition).OccupyingPiece != null && GameBoard.GetSquare(checkPosition).OccupyingPiece != this)
+								{
+									//If even one piece other than this piece is between the king and the potential threat, it is not a valid threat.
+									validThreat = false;
+									break;
+								}
+
+								checkPosition += direction;
 							}
 
-							checkPosition += direction;
+							if (validThreat)
+								validThreats.Add(vector, potentialThreat);
 						}
-
-						if (validThreat)
-							validThreats.Add(vector, potentialThreat);
 					}
 				}
 
@@ -205,6 +209,38 @@ namespace Chess.Model
 							vectorWithValidation.Add(potentialDestination);
 					}
 					validMoves.Add(vectorWithValidation);
+				}
+
+				//Now we need to check if the king is threatened.
+				if (OwningPlayer.King.Threatened)
+				{
+					List<List<Coordinate>> validMovesTemp = new List<List<Coordinate>>();
+					//Get all the vectors and pieces that threaten the king presently.
+					Dictionary<List<Coordinate>, Piece> checkVectors = OwningPlayer.King.IncommingThreat;
+
+					//Loop through all valid moves.
+					foreach(List<Coordinate> vector in validMoves.Where(v => v.Count() > 0))
+					{
+						List<Coordinate> vectorTemp = new List<Coordinate>();
+						//Loop through all the coordinates.
+						foreach(Coordinate square in vector)
+						{
+							//Make sure it exists in every checkVector, or that it is the square of the threatening piece.
+							bool validMove = true;
+							foreach(KeyValuePair<List<Coordinate>, Piece> checkVector in checkVectors)
+							{
+								if (!checkVector.Key.Contains(square) && checkVector.Value.CurrentPosition!=square)
+								{
+									validMove = false;
+								}
+							}
+							if (validMove)
+								vectorTemp.Add(square);
+						}
+						validMovesTemp.Add(vectorTemp);
+					}
+
+					validMoves = validMovesTemp;
 				}
 
 				return validMoves;
@@ -306,6 +342,33 @@ namespace Chess.Model
 					validMoves.Add(vectorWithValidation);
 				}
 
+				//Now we need to check if the king is threatened.
+				if (OwningPlayer.King.Threatened)
+				{
+					//Get all the vectors and pieces that threaten the king presently.
+					Dictionary<List<Coordinate>, Piece> checkVectors = OwningPlayer.King.IncommingThreat;
+
+					//Loop through all valid moves.
+					foreach (List<Coordinate> vector in validMoves)
+					{
+						//Loop through all the coordinates.
+						foreach (Coordinate square in vector)
+						{
+							//Make sure it exists in every checkVector, or that it is the square of the threatening piece.
+							bool validMove = true;
+							foreach (KeyValuePair<List<Coordinate>, Piece> checkVector in checkVectors)
+							{
+								if (!checkVector.Key.Contains(square) && checkVector.Value.CurrentPosition != square)
+								{
+									validMove = false;
+								}
+							}
+							if (!validMove)
+								vector.Remove(square);
+						}
+					}
+				}
+
 				return validMoves;
 			}
 		}
@@ -332,6 +395,48 @@ namespace Chess.Model
 					).Count() > 0; //Make sure there is at least one piece that threatens this piece.
 				}
 			}
+		}
+
+		public Dictionary<List<Coordinate>, Piece> IncommingThreat
+		{
+			get
+			{
+				Dictionary<List<Coordinate>, Piece> incommingThreat = new Dictionary<List<Coordinate>, Piece>();
+
+				//Get all the pieces from the enemy player.
+				List<Piece> enemyPieces = OwningPlayer == GameBoard.White ? GameBoard.Black.Pieces : GameBoard.White.Pieces;
+
+				//Loop through all pieces' ThreatCollide.
+				foreach(Piece enemyPiece in enemyPieces)
+				{
+					foreach(List<Coordinate> vector in enemyPiece.ThreatCollide)
+					{
+						//If that threatcollide contains this piece, add it to the dictionary.
+						if (vector.Contains(CurrentPosition))
+							incommingThreat.Add(vector, enemyPiece);
+					}
+				}
+
+				return incommingThreat;
+			}
+		}
+
+		/// <summary>
+		/// Determine's whether a piece's range of motion or threat contains the target coordinate.
+		/// </summary>
+		/// <param name="destination">The destination you wish to move the piece to.</param>
+		/// <param name="range">The range of motion or threat range you wish to check. ValidThreat, RangeofMotionCollide, etc.</param>
+		/// <returns>If the destination exists within the range.</returns>
+		public bool MoveContains(Coordinate destination, List<List<Coordinate>> range)
+		{
+			foreach(List<Coordinate> vector in range)
+			{
+				if (vector.Contains(destination))
+				{
+					return true;
+				}
+			}
+			return false;
 		}
 
 		public Piece(int playerNumber, Player player)

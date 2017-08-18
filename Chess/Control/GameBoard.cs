@@ -104,7 +104,7 @@ namespace Chess.Control
 
 		private static void PopulatePlayerTwo()
 		{
-			for (int column = 0; column < 7; column++)
+			for (int column = 0; column < 8; column++)
 			{
 				Pawn pawn = new Pawn(1, Black);
 				Black.Pieces.Add(pawn);
@@ -152,44 +152,59 @@ namespace Chess.Control
 			 */
 			string moveError = null;
 
-			//First we check if there is even a piece in that spot.
-			if (GetSquare(move.StartCoordinate).OccupyingPiece != null)
+			//First we have to check that the space exists
+			if (move.StartCoordinate.Row < 8 && move.StartCoordinate.Column < 8)
 			{
-				//If there is a piece in the targeted space, we add it to the move object.
-				move.PieceMoved = GetSquare(move.StartCoordinate).OccupyingPiece;
-
-				//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
-				if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count()==1)
+				//Second we check if there is even a piece in that spot.
+				if (GetSquare(move.StartCoordinate).OccupyingPiece != null)
 				{
-                    if (GetSquare(move.EndCoordinate).OccupyingPiece != null) {
-                        move.PieceTaken = GetSquare(move.StartCoordinate).OccupyingPiece;
-                    }
-                    
-                    GetSquare(move.StartCoordinate).OccupyingPiece = null;
-                    GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
+					//If there is a piece in the targeted space, we add it to the move object.
+					move.PieceMoved = GetSquare(move.StartCoordinate).OccupyingPiece;
 
-                    //Finally, we check to see if moving the piece would result in putting the player in check.
-                    if (KingCheck(GetSquare(move.StartCoordinate).OccupyingPiece.PlayerNumber))
+					//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
+					if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count() == 1)
 					{
-						moveError = "Moving the selected piece to the target space would put the player in check, and is therefore illegal.";
-                        GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceTaken;
-                        GetSquare(move.StartCoordinate).OccupyingPiece = move.PieceMoved;
+						//Finally, we check if the piece can move there without putting its king in check.
+						if (move.PieceMoved.MoveContains(move.EndCoordinate, move.PieceMoved.ValidRangeOfMotion))
+						{
+							//Check for pawn double-move.
+							if (move.PieceMoved.GetType().Equals(typeof(Pawn)))
+							{
+								//Get the current space and the end space, and make sure they are more than one away from each other
+								if (Math.Abs(move.EndCoordinate.Row - move.StartCoordinate.Row) == 2)
+								{
+									//TODO Place the phantom pawn.
+								}
+							}
+
+							//Check the destination to see if a piece gets taken.
+							if (GetSquare(move.EndCoordinate) != null)
+							{
+								move.PieceTaken = GetSquare(move.EndCoordinate).OccupyingPiece;
+							}
+
+							//If we're here, then all the checks have passed and we can move the piece.
+							GetSquare(move.StartCoordinate).OccupyingPiece = null;
+							GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
+							move.PieceMoved.HasMoved = true;
+						}
+						else
+						{
+							moveError = "Moving there would place the piece's king in check.";
+						}
 					}
 					else
 					{
-                        move.PieceMoved.HasMoved = true;
-                        moveHistory.Add(move);
-                    }
-                }
+						moveError = "The target space was not within the selected piece's range of motion.";
+					}
+				}
 				else
 				{
-					moveError = "The target space was not within the selected piece's range of motion.";
+					moveError = "There was no piece at the selected location.";
 				}
 			}
 			else
-			{
-				moveError = "There was no piece at the selected location.";
-			}
+				moveError = "That space does not exist.";
 
 			return moveError;
 		}

@@ -309,3 +309,5 @@ TestHarness/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /TestHarness/obj/Debug/CoreCompileInputs.cache
 /Chess/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 /Chess/obj/Debug/CoreCompileInputs.cache
+/Chess/obj/Debug/Chess.pdb
+/Chess/bin/Debug/*.pdb
