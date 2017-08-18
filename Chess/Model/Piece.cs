@@ -111,7 +111,7 @@ namespace Chess.Model
 			}
 		}
 
-		public List<List<Coordinate>> ValidRangeOfMotion
+		public virtual List<List<Coordinate>> ValidRangeOfMotion
 		{
 			get
 			{
@@ -211,7 +211,7 @@ namespace Chess.Model
 			}
 		}
 
-		public List<List<Coordinate>> ValidThreat
+		public virtual List<List<Coordinate>> ValidThreat
 		{
 			get
 			{
@@ -310,6 +310,29 @@ namespace Chess.Model
 			}
 		}
 		public int PlayerNumber { get; set; }
+		public bool Threatened
+		{
+			get
+			{
+				//A piece is either white or black.
+				if (OwningPlayer == Control.GameBoard.White)
+				{
+					return Control.GameBoard.Black.Pieces.Where(piece => //All of the opposing player's pieces.
+						piece.ThreatCollide.Where(vector => //All of the vectors of each piece's ThreatCollide
+						   vector.Contains(CurrentPosition) //Make sure this piece is in that vector.
+						).Count() > 0 //Make sure there is at least one vector with this piece in it.
+					).Count() > 0; //Make sure there is at least one piece that threatens this piece.
+				}
+				else
+				{
+					return Control.GameBoard.White.Pieces.Where(piece => //All of the opposing player's pieces.
+						piece.ThreatCollide.Where(vector => //All of the vectors of each piece's ThreatCollide
+						   vector.Contains(CurrentPosition) //Make sure this piece is in that vector.
+						).Count() > 0 //Make sure there is at least one vector with this piece in it.
+					).Count() > 0; //Make sure there is at least one piece that threatens this piece.
+				}
+			}
+		}
 
 		public Piece(int playerNumber, Player player)
 		{
