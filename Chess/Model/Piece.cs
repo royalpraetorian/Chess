@@ -212,6 +212,31 @@ namespace Chess.Model
 				}
 
 				//Now we need to check if the king is threatened.
+				if (OwningPlayer.King.Threatened)
+				{
+					//Get all the vectors and pieces that threaten the king presently.
+					Dictionary<List<Coordinate>, Piece> checkVectors = OwningPlayer.King.IncommingThreat;
+
+					//Loop through all valid moves.
+					foreach(List<Coordinate> vector in validMoves)
+					{
+						//Loop through all the coordinates.
+						foreach(Coordinate square in vector)
+						{
+							//Make sure it exists in every checkVector, or that it is the square of the threatening piece.
+							bool validMove = true;
+							foreach(KeyValuePair<List<Coordinate>, Piece> checkVector in checkVectors)
+							{
+								if (!checkVector.Key.Contains(square) && checkVector.Value.CurrentPosition!=square)
+								{
+									validMove = false;
+								}
+							}
+							if (!validMove)
+								vector.Remove(square);
+						}
+					}
+				}
 
 				return validMoves;
 			}
@@ -337,6 +362,30 @@ namespace Chess.Model
 						).Count() > 0 //Make sure there is at least one vector with this piece in it.
 					).Count() > 0; //Make sure there is at least one piece that threatens this piece.
 				}
+			}
+		}
+
+		public Dictionary<List<Coordinate>, Piece> IncommingThreat
+		{
+			get
+			{
+				Dictionary<List<Coordinate>, Piece> incommingThreat = new Dictionary<List<Coordinate>, Piece>();
+
+				//Get all the pieces from the enemy player.
+				List<Piece> enemyPieces = OwningPlayer == GameBoard.White ? GameBoard.Black.Pieces : GameBoard.White.Pieces;
+
+				//Loop through all pieces' ThreatCollide.
+				foreach(Piece enemyPiece in enemyPieces)
+				{
+					foreach(List<Coordinate> vector in enemyPiece.ThreatCollide)
+					{
+						//If that threatcollide contains this piece, add it to the dictionary.
+						if (vector.Contains(CurrentPosition))
+							IncommingThreat.Add(vector, enemyPiece);
+					}
+				}
+
+				return incommingThreat;
 			}
 		}
 
