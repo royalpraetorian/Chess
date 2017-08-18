@@ -178,9 +178,10 @@ namespace Chess.Control
 							}
 
 							//Check the destination to see if a piece gets taken.
-							if (GetSquare(move.EndCoordinate) != null)
+							if (GetSquare(move.EndCoordinate).OccupyingPiece != null)
 							{
 								move.PieceTaken = GetSquare(move.EndCoordinate).OccupyingPiece;
+								move.PieceTaken.OwningPlayer.Pieces.Remove(move.PieceTaken);
 							}
 
 							//If we're here, then all the checks have passed and we can move the piece.
