@@ -47,6 +47,16 @@ namespace Chess.Model.Ranks
 			}
 		}
 
+		public bool Castleable
+		{
+			get
+			{
+				if (OwningPlayer.King.ValidCastleTargets != null && OwningPlayer.King.ValidCastleTargets.Contains(this))
+					return true;
+				else return false;
+			}
+		}
+
         public override List<List<Coordinate>> RangeOfMotion
         {
 			get
