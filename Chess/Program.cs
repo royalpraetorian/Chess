@@ -36,7 +36,7 @@ namespace Chess
                     }
                 } while (!string.IsNullOrEmpty(validMov));
 
-            } while (Console.ReadKey(true).Key != ConsoleKey.Escape);
+            } while (true);
         }
 	}
 }

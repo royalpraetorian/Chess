@@ -19,13 +19,13 @@ namespace Chess.View
             {
                 for (int r = 0; r < 8; r++)
                 {
-                    if (GameBoard.GetSquare(c, r).OccupyingPiece != null)
+                    if (GameBoard.GetSquare(r, c).OccupyingPiece != null)
                     {
-                        boardString.Append("| " + RankPrint(GameBoard.GetSquare(c, r).OccupyingPiece) + " ");
+                        boardString.Append("| " + RankPrint(GameBoard.GetSquare(r, c).OccupyingPiece) + " ");
                     }
-                    else if (GameBoard.GetSquare(c, r).OccupyingPiece == null)
+                    else if (GameBoard.GetSquare(r, c).OccupyingPiece == null)
                     {
-                        boardString.Append("|  ");
+                        boardString.Append("|   ");
                     }
                     //boardString.Append("|");
                 }
