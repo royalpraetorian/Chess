@@ -186,6 +186,7 @@ namespace Chess.Control
 							//If we're here, then all the checks have passed and we can move the piece.
 							GetSquare(move.StartCoordinate).OccupyingPiece = null;
 							GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
+							move.PieceMoved.HasMoved = true;
 						}
 						else
 						{

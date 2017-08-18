@@ -211,6 +211,8 @@ namespace Chess.Model
 					validMoves.Add(vectorWithValidation);
 				}
 
+				//Now we need to check if the king is threatened.
+
 				return validMoves;
 			}
 		}
