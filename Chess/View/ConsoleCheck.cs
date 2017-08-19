@@ -24,7 +24,11 @@ namespace Chess.View
                 {
                     if (GameBoard.GetSquare(r, c).OccupyingPiece != null)
                     {
-                        boardString.Append("| " + RankPrint(GameBoard.GetSquare(r, c).OccupyingPiece) + " ");
+                        boardString.Append("| ");
+                        char pieceChar = RankPrint(GameBoard.GetSquare(r, c).OccupyingPiece);
+                        pieceChar = (GameBoard.GetSquare(r, c).OccupyingPiece.PlayerNumber == 0) ? pieceChar : char.ToLower(pieceChar);
+                        boardString.Append(pieceChar);
+                        boardString.Append(" ");
                     }
                     else if (GameBoard.GetSquare(r, c).OccupyingPiece == null)
                     {
