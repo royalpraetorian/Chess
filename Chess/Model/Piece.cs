@@ -40,11 +40,11 @@ namespace Chess.Model
 						bool outOfBounds = false;
 						while (!outOfBounds)
 						{
-							if (!GameBoard.gameGrid.Keys.Contains(checkPosition))
+							if (GameBoard.gameGrid.Keys.Where(space => space == checkPosition).Count() == 0)
 							{
 								outOfBounds = true;
 							}
-							if (GameBoard.GetSquare(checkPosition).OccupyingPiece == null)
+							else if (GameBoard.GetSquare(checkPosition).OccupyingPiece == null)
 							{
 								rangeCollide.Add(checkPosition);
 								checkPosition += vector;
