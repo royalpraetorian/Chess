@@ -8,33 +8,34 @@ using System.Threading.Tasks;
 
 namespace Chess.Control
 {
-    public static class GameBoard
+    public class GameBoard
     {
         // -- Turn event, all Spaces subscribe to it, currently used for en passant
 
         public delegate void SpacePassantDelegate();
-        public static event SpacePassantDelegate TurnStep;
+        public event SpacePassantDelegate TurnStep;
 
-		public static Player White { get; set; } = new Player();
+		public Player White { get; set; } = new Player();
 
-		public static Player Black { get; set; } = new Player();
+		public Player Black { get; set; } = new Player();
 
-		public static Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
-		public static Space GetSquare(int column, int row)
+		public Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
+		public Space GetSquare(int column, int row)
 		{
 			return gameGrid.Where(square => square.Key == new Coordinate(column, row)).First().Value;
 		}
-		public static Space GetSquare(Coordinate coords)
+		public Space GetSquare(Coordinate coords)
 		{
 			return gameGrid.Where(square => square.Key == coords).First().Value;
 		}
-		public static List<Move> moveHistory = new List<Move>();
-		static GameBoard()
+		public List<Move> moveHistory = new List<Move>();
+		public GameBoard()
 		{
 			ResetBoard();
-
+			White.Board = this;
+			Black.Board = this;
 		}
-		public static void ResetBoard()
+		public void ResetBoard()
 		{
 			//Clear the board of all current spaces.
 			//Because pieces are contained within spaces, this will effectively clear all of our pieces as well.
@@ -48,7 +49,7 @@ namespace Chess.Control
 				for (int row = 0; row<8; row++)
 				{
 					Coordinate coords = new Coordinate(column, row);
-					gameGrid.Add(coords, new Space());
+					gameGrid.Add(coords, new Space() { Board=this });
 				}
 			}
 
@@ -58,7 +59,7 @@ namespace Chess.Control
 			PopulatePlayerTwo();
 		}
 
-		private static void PopulatePlayerOne()
+		private void PopulatePlayerOne()
 		{
 			//Runs through every column and populates the correct rows with pawns, or other pieces based on a switch.
 			for (int column = 0; column<8; column++)
@@ -102,7 +103,7 @@ namespace Chess.Control
 			}
 		}
 
-		private static void PopulatePlayerTwo()
+		private void PopulatePlayerTwo()
 		{
 			for (int column = 0; column < 8; column++)
 			{
@@ -144,7 +145,7 @@ namespace Chess.Control
 			}
 		}
 
-		public static string MovePiece(Move move)
+		public string MovePiece(Move move)
 		{
 			/*
 			 * This method returns a string. If the string it returns is null, then the move command succeeded.
@@ -210,7 +211,7 @@ namespace Chess.Control
 			return moveError;
 		}
 
-        public static bool KingCheck(int curPlayerToCheck) {
+        public bool KingCheck(int curPlayerToCheck) {
 
             // This query should only return 1 result, since there is only 1 king on the opposing player's side
             // Thus, indexing at 0 should be appropriate in this case to access the value

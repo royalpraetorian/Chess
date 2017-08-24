@@ -1,8 +1,5 @@
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.csprojResolveAssemblyReference.cache
-C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.exe.config
-C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.exe
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.pdb
-C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.exe
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.pdb
 C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\bin\Debug\Chess.exe.config
 C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\bin\Debug\Chess.exe
@@ -10,3 +7,6 @@ C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\bin\Debu
 C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\obj\Debug\Chess.csprojResolveAssemblyReference.cache
 C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\obj\Debug\Chess.exe
 C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\obj\Debug\Chess.pdb
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.dll.config
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.dll
