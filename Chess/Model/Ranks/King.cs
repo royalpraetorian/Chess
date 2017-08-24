@@ -53,16 +53,16 @@ namespace Chess.Model.Ranks
 								{
 									//Find any pieces which threaten this space.
 									List<Piece> threats = new List<Piece>();
-									if (OwningPlayer == GameBoard.White)
+									if (OwningPlayer == OwningPlayer.Board.White)
 									{
-										threats = GameBoard.Black.Pieces.Where(piece => //Get the opposing player's pieces.
+										threats = OwningPlayer.Board.Black.Pieces.Where(piece => //Get the opposing player's pieces.
 											piece.ThreatCollide.Where(v => v.Contains(checkPosition) //Get each vector of each piece's threat.
 											).Count() > 0
 										).ToList();
 									}
 									else
 									{
-										threats = GameBoard.White.Pieces.Where(piece => //Get the opposing player's pieces.
+										threats = OwningPlayer.Board.White.Pieces.Where(piece => //Get the opposing player's pieces.
 											piece.ThreatCollide.Where(v => v.Contains(checkPosition) //Get each vector of each piece's threat.
 											).Count() > 0
 										).ToList();
@@ -101,14 +101,14 @@ namespace Chess.Model.Ranks
 			{
 				List<List<Coordinate>> threatRange = new List<List<Coordinate>>()
 				{
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(-1, 1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(-1, -1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(1, 1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(1, -1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(-1, 0)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(1, 0)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(0, 1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(0, -1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(-1, 1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(-1, -1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(1, 1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(1, -1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(-1, 0)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(1, 0)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(0, 1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key - CurrentPosition == new Coordinate(0, -1)).Select(space => space.Key).ToList() },
 				};
 				return threatRange;
 			}
@@ -135,10 +135,10 @@ namespace Chess.Model.Ranks
 					foreach(Coordinate move in vector)
 					{
 						//Check which player this piece belongs to.
-						if (OwningPlayer == Control.GameBoard.White)
+						if (OwningPlayer == OwningPlayer.Board.White)
 						{
 							//Check each of the opposing player's pieces to see if any of them have the space in their ThreatCollide.
-							List<Piece> blockingPieces = Control.GameBoard.Black.Pieces.Where(piece =>
+							List<Piece> blockingPieces = OwningPlayer.Board.Black.Pieces.Where(piece =>
 								piece.ThreatCollide.Where(lineOfSight =>
 									lineOfSight.Contains(move)
 								).Count() > 0
@@ -149,7 +149,7 @@ namespace Chess.Model.Ranks
 						else //If not white, must be black.
 						{
 							//Check each of the opposing player's pieces to see if any of them have the space in their ThreatCollide.
-							List<Piece> blockingPieces = Control.GameBoard.White.Pieces.Where(piece =>
+							List<Piece> blockingPieces = OwningPlayer.Board.White.Pieces.Where(piece =>
 								piece.ThreatCollide.Where(lineOfSight =>
 									lineOfSight.Contains(move)
 								).Count() > 0
@@ -179,10 +179,10 @@ namespace Chess.Model.Ranks
 					foreach (Coordinate move in vector)
 					{
 						//Check which player this piece belongs to.
-						if (OwningPlayer == Control.GameBoard.White)
+						if (OwningPlayer == OwningPlayer.Board.White)
 						{
 							//Check each of the opposing player's pieces to see if any of them have the space in their ThreatCollide.
-							List<Piece> blockingPieces = Control.GameBoard.Black.Pieces.Where(piece =>
+							List<Piece> blockingPieces = OwningPlayer.Board.Black.Pieces.Where(piece =>
 								piece.ThreatCollide.Where(lineOfSight =>
 									lineOfSight.Contains(move)
 								).Count() > 0
@@ -193,7 +193,7 @@ namespace Chess.Model.Ranks
 						else //If not white, must be black.
 						{
 							//Check each of the opposing player's pieces to see if any of them have the space in their ThreatCollide.
-							List<Piece> blockingPieces = Control.GameBoard.White.Pieces.Where(piece =>
+							List<Piece> blockingPieces = OwningPlayer.Board.White.Pieces.Where(piece =>
 								piece.ThreatCollide.Where(lineOfSight =>
 									lineOfSight.Contains(move)
 								).Count() > 0

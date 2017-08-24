@@ -31,7 +31,7 @@ namespace Chess.Model.Ranks
 					bool outOfBounds = false;
 					while (!outOfBounds)
 					{
-						if (Control.GameBoard.gameGrid.Where(space => space.Key == checkPosition).Count() > 0)
+						if (OwningPlayer.Board.gameGrid.Where(space => space.Key == checkPosition).Count() > 0)
 						{
 							directionalThreat.Add(checkPosition);
 							checkPosition += vector;

@@ -15,7 +15,7 @@ namespace Chess.Model
 		{
 			get
 			{
-				return GameBoard.gameGrid.Where(square => square.Value.OccupyingPiece == this).First().Key;
+				return OwningPlayer.Board.gameGrid.Where(square => square.Value.OccupyingPiece == this).First().Key;
 			}
 		}
 		public bool HasMoved { get; set; }
@@ -40,11 +40,11 @@ namespace Chess.Model
 						bool outOfBounds = false;
 						while (!outOfBounds)
 						{
-							if (GameBoard.gameGrid.Keys.Where(space => space == checkPosition).Count() == 0)
+							if (OwningPlayer.Board.gameGrid.Keys.Where(space => space == checkPosition).Count() == 0)
 							{
 								outOfBounds = true;
 							}
-							else if (GameBoard.GetSquare(checkPosition).OccupyingPiece == null)
+							else if (OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece == null)
 							{
 								rangeCollide.Add(checkPosition);
 								checkPosition += vector;
@@ -79,18 +79,18 @@ namespace Chess.Model
 						bool outOfBounds = false;
 						while (!outOfBounds)
 						{
-							if (!(GameBoard.gameGrid.Where(space => space.Key == checkPosition).Count() > 0))
+							if (!(OwningPlayer.Board.gameGrid.Where(space => space.Key == checkPosition).Count() > 0))
 							{
 								outOfBounds = true;
 							}
 							else if (range.Where(space => space == checkPosition).Count() > 0)
 							{
-								if (GameBoard.GetSquare(checkPosition).OccupyingPiece == null)
+								if (OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece == null)
 								{
 									rangeCollide.Add(checkPosition);
 									checkPosition += vector;
 								}
-								else if (GameBoard.GetSquare(checkPosition).OccupyingPiece.PlayerNumber == this.PlayerNumber)
+								else if (OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece.PlayerNumber == this.PlayerNumber)
 								{
 									outOfBounds = true;
 								}
@@ -131,11 +131,11 @@ namespace Chess.Model
 				List<List<Coordinate>> validMoves = new List<List<Coordinate>>();
 
 				//We should cache a list of all enemy vectors that contain both this piece and its king.
-				List<Piece> potentialThreats = GameBoard.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
+				List<Piece> potentialThreats = OwningPlayer.Board.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
 					space.OccupyingPiece != null && //Make sure the space has a piece.
 					space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
 					space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
-					vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+					vector.Contains(OwningPlayer.Board.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
 					square.OccupyingPiece != null && //Ensure the space is not empty.
 					square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
 					square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
@@ -167,7 +167,7 @@ namespace Chess.Model
 							while (checkPosition != potentialThreat.CurrentPosition)
 							{
 								//If we encounter another piece, we incriment 
-								if (GameBoard.GetSquare(checkPosition).OccupyingPiece != null && GameBoard.GetSquare(checkPosition).OccupyingPiece != this)
+								if (OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece != null && OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece != this)
 								{
 									//If even one piece other than this piece is between the king and the potential threat, it is not a valid threat.
 									validThreat = false;
@@ -267,11 +267,11 @@ namespace Chess.Model
 				List<List<Coordinate>> validMoves = new List<List<Coordinate>>();
 
 				//We should cache a list of all enemy vectors that contain both this piece and its king.
-				List<Piece> potentialThreats = GameBoard.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
+				List<Piece> potentialThreats = OwningPlayer.Board.gameGrid.Values.Where(space => //Using a linq statement to return only the pieces with possibly threatening vectors.
 					space.OccupyingPiece != null && //Make sure the space has a piece.
 					space.OccupyingPiece.PlayerNumber != PlayerNumber && //Such that the piece in that space is an enemy piece.
 					space.OccupyingPiece.Threat.Where(vector => vector.Contains(CurrentPosition) && //Such that the piece in that space has this piece in its ThreatCollide
-					vector.Contains(GameBoard.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
+					vector.Contains(OwningPlayer.Board.gameGrid.Values.Where(square => //Such that the piece in that space has this piece's king in its ThreatCollide.
 					square.OccupyingPiece.PlayerNumber == PlayerNumber && //Make sure the king is this piece's king.
 					square.OccupyingPiece.GetType().Equals(typeof(King)) //Make sure the piece in the space is a king.
 					).Select(coord => coord.OccupyingPiece).First().CurrentPosition)).Count() > 0 //Make sure that the list of vectors containing both pieces is greater than zero.
@@ -299,7 +299,7 @@ namespace Chess.Model
 						while (checkPosition != potentialThreat.CurrentPosition)
 						{
 							//If we encounter another piece, we incriment 
-							if (GameBoard.GetSquare(checkPosition).OccupyingPiece != null && GameBoard.GetSquare(checkPosition).OccupyingPiece != this)
+							if (OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece != null && OwningPlayer.Board.GetSquare(checkPosition).OccupyingPiece != this)
 							{
 								//If even one piece other than this piece is between the king and the potential threat, it is not a valid threat.
 								validThreat = false;
@@ -378,9 +378,9 @@ namespace Chess.Model
 			get
 			{
 				//A piece is either white or black.
-				if (OwningPlayer == Control.GameBoard.White)
+				if (OwningPlayer == OwningPlayer.Board.White)
 				{
-					return Control.GameBoard.Black.Pieces.Where(piece => //All of the opposing player's pieces.
+					return OwningPlayer.Board.Black.Pieces.Where(piece => //All of the opposing player's pieces.
 						piece.ThreatCollide.Where(vector => //All of the vectors of each piece's ThreatCollide
 						   vector.Contains(CurrentPosition) //Make sure this piece is in that vector.
 						).Count() > 0 //Make sure there is at least one vector with this piece in it.
@@ -388,7 +388,7 @@ namespace Chess.Model
 				}
 				else
 				{
-					return Control.GameBoard.White.Pieces.Where(piece => //All of the opposing player's pieces.
+					return OwningPlayer.Board.White.Pieces.Where(piece => //All of the opposing player's pieces.
 						piece.ThreatCollide.Where(vector => //All of the vectors of each piece's ThreatCollide
 						   vector.Contains(CurrentPosition) //Make sure this piece is in that vector.
 						).Count() > 0 //Make sure there is at least one vector with this piece in it.
@@ -404,7 +404,7 @@ namespace Chess.Model
 				Dictionary<List<Coordinate>, Piece> incommingThreat = new Dictionary<List<Coordinate>, Piece>();
 
 				//Get all the pieces from the enemy player.
-				List<Piece> enemyPieces = OwningPlayer == GameBoard.White ? GameBoard.Black.Pieces : GameBoard.White.Pieces;
+				List<Piece> enemyPieces = OwningPlayer == OwningPlayer.Board.White ? OwningPlayer.Board.Black.Pieces : OwningPlayer.Board.White.Pieces;
 
 				//Loop through all pieces' ThreatCollide.
 				foreach(Piece enemyPiece in enemyPieces)

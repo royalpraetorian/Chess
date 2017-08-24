@@ -18,14 +18,14 @@ namespace Chess.Model.Ranks
 			{
 				return new List<List<Coordinate>>()
 				{
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-2, CurrentPosition.Row-1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-1, CurrentPosition.Row-2)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+2, CurrentPosition.Row+1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+1, CurrentPosition.Row+2)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+2, CurrentPosition.Row-1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-2, CurrentPosition.Row+1)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+1, CurrentPosition.Row-2)).Select(space => space.Key).ToList() },
-					{ Control.GameBoard.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-1, CurrentPosition.Row+2)).Select(space => space.Key).ToList() }
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-2, CurrentPosition.Row-1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-1, CurrentPosition.Row-2)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+2, CurrentPosition.Row+1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+1, CurrentPosition.Row+2)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+2, CurrentPosition.Row-1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-2, CurrentPosition.Row+1)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column+1, CurrentPosition.Row-2)).Select(space => space.Key).ToList() },
+					{ OwningPlayer.Board.gameGrid.Where(space => space.Key == new Coordinate(CurrentPosition.Column-1, CurrentPosition.Row+2)).Select(space => space.Key).ToList() }
 				};
 			}
 		}
@@ -48,7 +48,7 @@ namespace Chess.Model.Ranks
 				foreach(List<Coordinate> vector in baseRange)
 				{
 					//Make sure there's a square in the vector, then make sure there are no allied pieces there.
-					if (vector.Count > 0 && (Control.GameBoard.GetSquare(vector[0]).OccupyingPiece==null || Control.GameBoard.GetSquare(vector[0]).OccupyingPiece.OwningPlayer!=OwningPlayer))
+					if (vector.Count > 0 && (OwningPlayer.Board.GetSquare(vector[0]).OccupyingPiece==null || OwningPlayer.Board.GetSquare(vector[0]).OccupyingPiece.OwningPlayer!=OwningPlayer))
 					{
 						retVal.Add(vector);
 					}

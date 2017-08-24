@@ -1,4 +1,5 @@
-﻿using Chess.Model.Ranks;
+﻿using Chess.Control;
+using Chess.Model.Ranks;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace Chess.Model
 		public bool isHuman { get; set; }
 		public List<Piece> Pieces { get; set; } = new List<Piece>();
 		public King King { get; set; }
+		public GameBoard Board { get; set; }
 	}
 }

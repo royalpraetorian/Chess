@@ -10,6 +10,7 @@ namespace Chess.Model
 {
     public class Space
     {
+		public GameBoard Board;
         public byte PassantTimer { get; set; } = 1;
 
         public Pawn PhantomPawn { get; set; }
@@ -18,7 +19,7 @@ namespace Chess.Model
 
         public Space()
         {
-            GameBoard.TurnStep += PhantomCheck;
+            Board.TurnStep += PhantomCheck;
         }
 
         public void PhantomCheck()
