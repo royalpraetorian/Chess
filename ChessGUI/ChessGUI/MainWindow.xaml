@@ -6,55 +6,55 @@
         xmlns:local="clr-namespace:ChessGUI"
         mc:Ignorable="d"
         Title="MainWindow" Height="900" Width="1280">
-    <DockPanel>
-        <Menu DockPanel.Dock="Top"
-              Background="Pink"
-              Height="25"
-              VerticalAlignment="Top"></Menu>
-        <StackPanel DockPanel.Dock="Left"
-                    Background="Red"
-                    Width="280"
-                    HorizontalAlignment="Left">
-            <Label Height="100"
-                     HorizontalContentAlignment="Center"
-                   FontSize="45"
-                   Content="Graveyard 1"
-                   VerticalContentAlignment="Center"/>
-        </StackPanel>
-        <StackPanel DockPanel.Dock="Right"
-                    Width="280"
-                    Background="Red"
-                    HorizontalAlignment="Right">
-            <Label Height="100"
-                   FontSize="45"
-                   Content="Graveyard 2"
-                   HorizontalContentAlignment="Center"
-                   VerticalContentAlignment="Center"/>
-        </StackPanel>
-        <Grid DockPanel.Dock="Bottom">
-            <TextBox 
-                Margin="6"
-                    Height="180"
-                    Background="Blue"
-                    VerticalAlignment="Bottom">
-            </TextBox>
-        </Grid>
-        <StackPanel >
-            <Label Margin="0"
-               DockPanel.Dock="Top"
-               Width="710"
-               Height="95"
-               Background="Coral"></Label>
-            <Label 
-               Height="570"
-               Background="Green"
-                VerticalContentAlignment="Center"
-                HorizontalContentAlignment="Center">
-                <UniformGrid x:Name="PlayArea"
-                   Width="530"
-                   Height="530"
-                   Background="Purple"></UniformGrid>
-            </Label>
-        </StackPanel>
-    </DockPanel>
+        <DockPanel>
+            <Menu DockPanel.Dock="Top"
+                  Background="Pink"
+                  Height="25"
+                  VerticalAlignment="Top"></Menu>
+            <StackPanel DockPanel.Dock="Left"
+                        Background="Red"
+                        Width="280"
+                        HorizontalAlignment="Left">
+                <Label Height="100"
+                         HorizontalContentAlignment="Center"
+                       FontSize="45"
+                       Content="Graveyard 1"
+                       VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Right"
+                        Width="280"
+                        Background="Red"
+                        HorizontalAlignment="Right">
+                <Label Height="100"
+                       FontSize="45"
+                       Content="Graveyard 2"
+                       HorizontalContentAlignment="Center"
+                       VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <Grid DockPanel.Dock="Bottom">
+                <TextBox 
+                    Margin="6"
+                        Height="180"
+                        Background="Blue"
+                        VerticalAlignment="Bottom">
+                </TextBox>
+            </Grid>
+            <StackPanel >
+                <Label Margin="0"
+                   DockPanel.Dock="Top"
+                   Width="710"
+                   Height="95"
+                   Background="Coral"></Label>
+                <Label 
+                   Height="570"
+                   Background="Green"
+                    VerticalContentAlignment="Center"
+                    HorizontalContentAlignment="Center">
+                    <UniformGrid x:Name="PlayArea"
+                       Width="530"
+                       Height="530"
+                       Background="Purple"></UniformGrid>
+                </Label>
+            </StackPanel>
+        </DockPanel>
 </Window>
