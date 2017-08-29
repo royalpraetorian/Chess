@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace Chess.Control
 {
+	public delegate void SpacePassantDelegate();
     public class GameBoard
     {
         // -- Turn event, all Spaces subscribe to it, currently used for en passant
 
-        public delegate void SpacePassantDelegate();
         public event SpacePassantDelegate TurnStep;
 
 		public Player White { get; set; } = new Player();
@@ -161,6 +161,45 @@ namespace Chess.Control
 				{
 					//If there is a piece in the targeted space, we add it to the move object.
 					move.PieceMoved = GetSquare(move.StartCoordinate).OccupyingPiece;
+
+					//Quick castling check
+					if (move.PieceMoved is King k)
+					{
+						if (k.ValidCastleTargets.Count > 0 && 
+							k.ValidCastleTargets.Any(rook => rook.CurrentPosition == move.EndCoordinate))
+						{
+							//Fetch the elligable rook
+							Rook r = (Rook)k.ValidCastleTargets.Where(rook => rook.CurrentPosition == move.EndCoordinate).Single();
+
+							//Get the vector from the king to the rook.
+							Coordinate vector = Coordinate.GetVector(k.CurrentPosition, r.CurrentPosition);
+							while (GetSquare(k.CurrentPosition+vector).OccupyingPiece!=r) //Check that the king and rook are not already adjacent.
+							{
+								//Move the king one square towards the rook.
+								Coordinate kNextPosition = k.CurrentPosition+vector;
+								GetSquare(k.CurrentPosition).OccupyingPiece = null;
+								GetSquare(kNextPosition).OccupyingPiece = k;
+
+								//Perform the same adjacency check and if they are not adjacent, move the rook. 
+								if (GetSquare(k.CurrentPosition + vector).OccupyingPiece != r)
+								{
+									Coordinate rNextPosition = r.CurrentPosition - vector;
+									GetSquare(r.CurrentPosition).OccupyingPiece = null;
+									GetSquare(rNextPosition).OccupyingPiece = r;
+								}
+							}
+							//Store the final positions of each piece.
+							Coordinate rCurrent = r.CurrentPosition;
+							Coordinate kCurrent = k.CurrentPosition;
+
+							//Invert the two.
+							GetSquare(rCurrent).OccupyingPiece = k;
+							GetSquare(kCurrent).OccupyingPiece = r;
+
+							//TODO Turn step event.
+							return null;
+						}
+					}
 
 					//Next we check if the space we're attempting to move the piece to is within that piece's range of motion.
 					if (GetSquare(move.StartCoordinate).OccupyingPiece.RangeOfMotionCollide.Where(vector => vector.Contains(move.EndCoordinate)).Count() == 1)
