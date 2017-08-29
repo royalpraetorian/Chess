@@ -17,8 +17,9 @@ namespace Chess.Model
 
         public Piece OccupyingPiece { get; set; }
 
-        public Space()
+        public Space(GameBoard board)
         {
+			Board = board;
             Board.TurnStep += PhantomCheck;
         }
 

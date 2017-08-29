@@ -37,6 +37,8 @@ namespace Chess.Model.Ranks
 								rooks.Remove(rook);
 						}
 
+						List<Piece> validRooks = new List<Piece>();
+
 						//Check if any are left
 						if (rooks.Count > 0)
 						{
@@ -82,10 +84,10 @@ namespace Chess.Model.Ranks
 									validRook = false;
 
 								//Remove the rook if it's invalid.
-								if (!validRook)
-									rooks.Remove(rook);
+								if (validRook)
+									validRooks.Add(rook);
 							}
-							return rooks;
+							return validRooks;
 						}
 						else return null;
 					}

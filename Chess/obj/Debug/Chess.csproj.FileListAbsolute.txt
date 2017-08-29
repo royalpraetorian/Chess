@@ -10,3 +10,4 @@ C:\Users\Mooba\Documents\Visual Studio 2017\Projects\PRO100\Chess\Chess\obj\Debu
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.dll.config
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\bin\Debug\Chess.dll
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.dll
+C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache

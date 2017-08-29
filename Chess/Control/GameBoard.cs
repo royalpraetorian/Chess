@@ -49,7 +49,7 @@ namespace Chess.Control
 				for (int row = 0; row<8; row++)
 				{
 					Coordinate coords = new Coordinate(column, row);
-					gameGrid.Add(coords, new Space() { Board=this });
+					gameGrid.Add(coords, new Space(this));
 				}
 			}
 
