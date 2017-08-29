@@ -14,7 +14,28 @@ namespace ChessTesting
 		public void TestMethod1()
 		{
 			GameBoard game = new GameBoard();
-			List<Piece> vct = game.White.King.ValidCastleTargets;
+			Assert.IsTrue(game.White.King.ValidCastleTargets.Count == 0);
+			Coordinate startCoordinate = new Coordinate(1, 1);
+			Coordinate endCoordinate = new Coordinate(1, 2);
+			Move m = new Move(startCoordinate, endCoordinate);
+			Assert.IsTrue(game.MovePiece(m)==null);
+			startCoordinate = new Coordinate(1, 0);
+			endCoordinate = new Coordinate(0,2);
+			m = new Move(startCoordinate, endCoordinate);
+			Assert.IsTrue(game.MovePiece(m)==null);
+			startCoordinate = new Coordinate(2, 0);
+			endCoordinate = new Coordinate(1,1);
+			m = new Move(startCoordinate, endCoordinate);
+			Assert.IsTrue(game.MovePiece(m) == null);
+			startCoordinate = new Coordinate(3, 1);
+			endCoordinate = new Coordinate(3, 2);
+			m = new Move(startCoordinate, endCoordinate);
+			Assert.IsTrue(game.MovePiece(m) == null);
+			startCoordinate = new Coordinate(3, 0);
+			endCoordinate = new Coordinate(3, 1);
+			m = new Move(startCoordinate, endCoordinate);
+			Assert.IsTrue(game.MovePiece(m) == null);
+			Assert.IsTrue(game.White.King.ValidCastleTargets.Count == 1);
 		}
 	}
 }

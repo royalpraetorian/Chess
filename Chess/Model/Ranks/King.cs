@@ -160,10 +160,19 @@ namespace Chess.Model.Ranks
 								validMoves.Add(move);
 						}
 					}
+
 					validVectors.Add(validMoves);
 				}
 
-				//Castleing!
+				//Check if we can castle.
+				if (ValidCastleTargets.Count > 0)
+				{
+					foreach (Piece p in ValidCastleTargets)
+					{
+						validVectors.Add(new List<Coordinate>() { p.CurrentPosition });
+					}
+				}
+
 
 				return validVectors;
 			}
