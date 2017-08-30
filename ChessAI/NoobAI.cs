@@ -33,6 +33,7 @@ namespace ChessAI {
                             if (destinationChosen) {
                                 move = new Move(start, destination);
                                 moveChosen = true;
+                                break;
                             }
                         }
                         if (moveChosen) break;
