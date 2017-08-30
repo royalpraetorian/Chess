@@ -9,16 +9,16 @@ using System.Threading.Tasks;
 namespace Chess.Control
 {
 	public delegate void SpacePassantDelegate();
+	public delegate void GameWonDelegate(Player winner);
     public class GameBoard
     {
         // -- Turn event, all Spaces subscribe to it, currently used for en passant
 
         public event SpacePassantDelegate TurnStep;
-
+		public event GameWonDelegate GameWon;
+		public int Turn { get; set; } = 0;
 		public Player White { get; set; } = new Player();
-
 		public Player Black { get; set; } = new Player();
-
 		public Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
 		public Space GetSquare(int column, int row)
 		{
@@ -32,6 +32,8 @@ namespace Chess.Control
 		public GameBoard()
 		{
 			ResetBoard();
+			TurnStep += IncrimentTurn;
+			TurnStep += CheckMateValidation;
 			White.Board = this;
 			Black.Board = this;
 		}
@@ -252,6 +254,11 @@ namespace Chess.Control
 			return move;
 		}
 
+		public void IncrimentTurn()
+		{
+			Turn++;
+		}
+
         public bool KingCheck(int curPlayerToCheck) {
 
             // This query should only return 1 result, since there is only 1 king on the opposing player's side
@@ -276,5 +283,33 @@ namespace Chess.Control
             }
             return false;
         }
+
+		public void CheckMateValidation()
+		{
+			/*
+			 * If both players only have one piece left, it must be the king.
+			 * In instances where the only remaining pieces are kings, the game is considered a draw.
+			 * In a draw, we call the GameWon method and pass in null.
+			 */
+			if (White.Pieces.Count == 1 && Black.Pieces.Count == 1)
+			{
+				GameWon(null);
+			}
+			else
+			{
+				if (!White.Pieces.Any(piece => //If white has no pieces,
+					piece.ValidRangeOfMotion.Any(vector => //Which have any valid vector,
+					vector.Count > 0))) //With at least one move, then they have lost.
+				{
+					GameWon(Black);
+				}  //Perform the same check on Black.
+				else if (!White.Pieces.Any(piece => //If black has no pieces,
+					piece.ValidRangeOfMotion.Any(vector => //Which have any valid vector,
+					vector.Count > 0))) //With at least one move, then they have lost.
+				{
+					GameWon(White);
+				} //Otherwise this method does nothing, as the game is not yet over.
+			}
+		}
 	}
 }
