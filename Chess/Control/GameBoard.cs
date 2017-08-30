@@ -17,6 +17,7 @@ namespace Chess.Control
         public event SpacePassantDelegate TurnStep;
 		public event GameWonDelegate GameWon;
 		public int Turn { get; set; } = 0;
+		public List<Move> MoveHistory { get; set; }
 		public Player White { get; set; } = new Player();
 		public Player Black { get; set; } = new Player();
 		public Dictionary<Coordinate, Space> gameGrid = new Dictionary<Coordinate, Space>();
@@ -198,7 +199,8 @@ namespace Chess.Control
 							GetSquare(rCurrent).OccupyingPiece = k;
 							GetSquare(kCurrent).OccupyingPiece = r;
 
-							//TODO Turn step event.
+							TurnStep();
+							moveHistory.Add(move);
 							return move;
 						}
 					}
@@ -223,6 +225,7 @@ namespace Chess.Control
 							if (GetSquare(move.EndCoordinate).OccupyingPiece != null)
 							{
 								move.PieceTaken = GetSquare(move.EndCoordinate).OccupyingPiece;
+								move.PieceTaken.OwningPlayer.Graveyard.Add(move.PieceTaken);
 								move.PieceTaken.OwningPlayer.Pieces.Remove(move.PieceTaken);
 							}
 
@@ -251,6 +254,8 @@ namespace Chess.Control
 
 
 			move.ErrorMessage = moveError;
+			if (move.ErrorMessage == null)
+				moveHistory.Add(move);
 			return move;
 		}
 

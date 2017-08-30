@@ -11,6 +11,7 @@ namespace Chess.Model
 	public class Player
 	{
 		public string Name { get; set; }
+		public List<Piece> Graveyard { get; set; }
 		public bool isHuman { get; set; }
 		public List<Piece> Pieces { get; set; } = new List<Piece>();
 		public King King { get; set; }
