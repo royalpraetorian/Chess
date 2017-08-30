@@ -37,12 +37,17 @@ namespace Chess.Control
 		public GameBoard()
 		{
 			ResetBoard();
-			TurnStep += IncrimentTurn;
-			TurnStep += CheckMateValidation;
+            SubscribeEvents();
 			White.Board = this;
 			Black.Board = this;
 		}
-		public void ResetBoard()
+
+        public void SubscribeEvents() {
+            TurnStep += IncrimentTurn;
+            TurnStep += CheckMateValidation;
+        }
+
+        public void ResetBoard()
 		{
 			//Clear the board of all current spaces.
 			//Because pieces are contained within spaces, this will effectively clear all of our pieces as well.
