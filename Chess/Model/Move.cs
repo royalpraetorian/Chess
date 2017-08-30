@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Model
 {
-	public class Move
+    [Serializable]
+    public class Move
 	{
 		public Coordinate StartCoordinate { get; set; }
 		public Coordinate EndCoordinate { get; set; }

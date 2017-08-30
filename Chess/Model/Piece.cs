@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Model
 {
-	public abstract class Piece
+    [Serializable]
+    public abstract class Piece
 	{
 		public Player OwningPlayer { get; set; }
 		public Coordinate CurrentPosition

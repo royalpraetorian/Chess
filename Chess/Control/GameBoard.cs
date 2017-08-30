@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Control
 {
-	public delegate void SpacePassantDelegate();
+    [Serializable]
+    public delegate void SpacePassantDelegate();
 	public delegate void GameWonDelegate(Player winner);
     public class GameBoard
     {

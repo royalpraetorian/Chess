@@ -9,6 +9,7 @@ using System.ComponentModel;
 
 namespace Chess.Model
 {
+    [Serializable]
     public class Space : INotifyPropertyChanged
     {
 		public GameBoard Board;

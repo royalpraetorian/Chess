@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Model.Ranks
 {
-	public class Pawn : Piece
+    [Serializable]
+    public class Pawn : Piece
 	{
 		public override List<List<Coordinate>> Threat
 		{

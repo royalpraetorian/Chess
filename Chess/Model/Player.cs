@@ -8,7 +8,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Model
 {
-	public class Player
+    [Serializable]
+    public class Player
 	{
 		public string Name { get; set; }
 		public List<Piece> Graveyard { get; set; }

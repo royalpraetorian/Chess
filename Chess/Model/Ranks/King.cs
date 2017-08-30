@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace Chess.Model.Ranks
 {
-	public class King : Piece
+    [Serializable]
+    public class King : Piece
 	{
 		public King(int playerNumber, Player player) : base(playerNumber, player)
 		{
