@@ -19,6 +19,7 @@ namespace Chess.Model
 
 		private Piece occupyingPiece;
 
+        [field:NonSerialized]
 		public event PropertyChangedEventHandler PropertyChanged;
 
 		public Piece OccupyingPiece

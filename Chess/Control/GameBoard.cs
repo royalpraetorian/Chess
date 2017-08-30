@@ -8,15 +8,18 @@ using System.Threading.Tasks;
 
 namespace Chess.Control
 {
-    [Serializable]
     public delegate void SpacePassantDelegate();
-	public delegate void GameWonDelegate(Player winner);
+    public delegate void GameWonDelegate(Player winner);
+
+    [Serializable]
     public class GameBoard
     {
         // -- Turn event, all Spaces subscribe to it, currently used for en passant
 
+        [field:NonSerialized]
         public event SpacePassantDelegate TurnStep;
-		public event GameWonDelegate GameWon;
+        [field: NonSerialized]
+        public event GameWonDelegate GameWon;
 		public int Turn { get; set; } = 0;
 		public List<Move> MoveHistory { get; set; }
 		public Player White { get; set; } = new Player();
