@@ -11,7 +11,7 @@ namespace ChessAI {
 
     public class NoobAI : ComputerPlayer {
 
-        public override Move MakeMove() {
+        public override Move GetNextMove() {
             Random gen = new Random();
 
             Move move = null;

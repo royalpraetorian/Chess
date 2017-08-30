@@ -11,6 +11,6 @@ namespace ChessAI {
 
     abstract public class ComputerPlayer : Player {
 
-        public abstract Move MakeMove();
+        public abstract Move GetNextMove();
     }
 }
