@@ -145,7 +145,7 @@ namespace Chess.Control
 			}
 		}
 
-		public string MovePiece(Move move)
+		public Move MovePiece(Move move)
 		{
 			/*
 			 * This method returns a string. If the string it returns is null, then the move command succeeded.
@@ -197,7 +197,7 @@ namespace Chess.Control
 							GetSquare(kCurrent).OccupyingPiece = r;
 
 							//TODO Turn step event.
-							return null;
+							return move;
 						}
 					}
 
@@ -247,7 +247,9 @@ namespace Chess.Control
 			else
 				moveError = "That space does not exist.";
 
-			return moveError;
+
+			move.ErrorMessage = moveError;
+			return move;
 		}
 
         public bool KingCheck(int curPlayerToCheck) {

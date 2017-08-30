@@ -18,24 +18,29 @@ namespace ChessTesting
 			Coordinate startCoordinate = new Coordinate(1, 1);
 			Coordinate endCoordinate = new Coordinate(1, 2);
 			Move m = new Move(startCoordinate, endCoordinate);
-			Assert.IsTrue(game.MovePiece(m)==null);
+			Assert.IsTrue(game.MovePiece(m).ErrorMessage==null);
 			startCoordinate = new Coordinate(1, 0);
 			endCoordinate = new Coordinate(0,2);
 			m = new Move(startCoordinate, endCoordinate);
-			Assert.IsTrue(game.MovePiece(m)==null);
+			Assert.IsTrue(game.MovePiece(m).ErrorMessage == null);
 			startCoordinate = new Coordinate(2, 0);
 			endCoordinate = new Coordinate(1,1);
 			m = new Move(startCoordinate, endCoordinate);
-			Assert.IsTrue(game.MovePiece(m) == null);
+			Assert.IsTrue(game.MovePiece(m).ErrorMessage == null);
 			startCoordinate = new Coordinate(3, 1);
 			endCoordinate = new Coordinate(3, 2);
 			m = new Move(startCoordinate, endCoordinate);
-			Assert.IsTrue(game.MovePiece(m) == null);
+			Assert.IsTrue(game.MovePiece(m).ErrorMessage == null);
 			startCoordinate = new Coordinate(3, 0);
 			endCoordinate = new Coordinate(3, 1);
 			m = new Move(startCoordinate, endCoordinate);
-			Assert.IsTrue(game.MovePiece(m) == null);
+			Assert.IsTrue(game.MovePiece(m).ErrorMessage == null);
 			Assert.IsTrue(game.White.King.ValidCastleTargets.Count == 1);
+			startCoordinate = game.White.King.CurrentPosition;
+			endCoordinate = game.White.King.ValidCastleTargets[0].CurrentPosition;
+			m = new Move(startCoordinate, endCoordinate);
+			Assert.IsTrue(game.MovePiece(m).ErrorMessage == null);
+			Console.WriteLine(m);
 		}
 	}
 }

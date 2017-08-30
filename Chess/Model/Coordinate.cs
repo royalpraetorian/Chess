@@ -91,5 +91,11 @@ namespace Chess.Model
 			}
 			else return false;
 		}
+
+		public override string ToString()
+		{
+			char col = (char)('a' + Column);
+			return $"{col}{Row}";
+		}
 	}
 }

@@ -444,5 +444,24 @@ namespace Chess.Model
 			PlayerNumber = playerNumber;
 			OwningPlayer = player;
 		}
+
+		public override string ToString()
+		{
+			switch(this)
+			{
+				case Pawn p:
+					return "P";
+				case Bishop b:
+					return "B";
+				case Queen q:
+					return "Q";
+				case King K:
+					return "K";
+				case Knight k:
+					return "N";
+				default:
+					return "R";
+			}
+		}
 	}
 }
