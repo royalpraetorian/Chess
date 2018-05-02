@@ -11,14 +11,15 @@ namespace Chess.Model
     [Serializable]
     public abstract class Piece
 	{
+		public Coordinate CurrentPosition { get; set; }
 		public Player OwningPlayer { get; set; }
-		public Coordinate CurrentPosition
-		{
-			get
-			{
-				return OwningPlayer.Board.gameGrid.Where(square => square.Value.OccupyingPiece == this).First().Key;
-			}
-		}
+		//public Coordinate CurrentPosition
+		//{
+		//	get
+		//	{
+		//		return OwningPlayer.Board.gameGrid.Where(square => square.Value.OccupyingPiece == this).First().Key;
+		//	}
+		//}
 		public bool HasMoved { get; set; }
 
 		abstract public List<List<Coordinate>> Threat { get; }

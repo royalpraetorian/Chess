@@ -80,35 +80,42 @@ namespace Chess.Control
 				White.Pieces.Add(pawn);
 				Coordinate square = gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 1).First().Key;
 				gameGrid[square].OccupyingPiece = pawn;
+				pawn.CurrentPosition = square;
+				square = new Coordinate(column, 0);
 				switch (column)
 				{
 					case 0:
 					case 7:
 						Rook rook = new Rook(0, White);
 						White.Pieces.Add(rook);
+						rook.CurrentPosition = square;
 						gameGrid.Where(space => space.Key.Column==column && space.Key.Row==0).First().Value.OccupyingPiece = rook;
 						break;
 					case 1:
 					case 6:
 						Knight knight = new Knight(0, White);
 						White.Pieces.Add(knight);
+						knight.CurrentPosition = square;
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = knight;
 						break;
 					case 2:
 					case 5:
 						Bishop bishop = new Bishop(0, White);
 						White.Pieces.Add(bishop);
+						bishop.CurrentPosition = square;
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = bishop;
 						break;
 					case 4:
 						King king = new King(0, White);
 						White.Pieces.Add(king);
 						White.King = king;
+						king.CurrentPosition = square;
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = king;
 						break;
 					case 3:
 						Queen queen = new Queen(0, White);
 						White.Pieces.Add(queen);
+						queen.CurrentPosition = square;
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 0).First().Value.OccupyingPiece = queen;
 						break;
 				}
@@ -121,6 +128,7 @@ namespace Chess.Control
 			{
 				Pawn pawn = new Pawn(1, Black);
 				Black.Pieces.Add(pawn);
+				pawn.CurrentPosition = new Coordinate(column, 6);
 				gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 6).First().Value.OccupyingPiece = pawn;
 				switch (column)
 				{
@@ -128,29 +136,34 @@ namespace Chess.Control
 					case 7:
 						Rook rook = new Rook(1, Black);
 						Black.Pieces.Add(rook);
+						rook.CurrentPosition = new Coordinate(column, 7);
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = rook;
 						break;
 					case 1:
 					case 6:
 						Knight knight = new Knight(1, Black);
 						Black.Pieces.Add(knight);
+						knight.CurrentPosition = new Coordinate(column, 7);
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = knight;
 						break;
 					case 2:
 					case 5:
 						Bishop bishop = new Bishop(1, Black);
 						Black.Pieces.Add(bishop);
+						bishop.CurrentPosition = new Coordinate(column, 7);
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = bishop;
 						break;
 					case 4:
 						King king = new King(1, Black);
 						Black.King = king;
+						king.CurrentPosition = new Coordinate(column, 7);
 						Black.Pieces.Add(king);
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = king;
 						break;
 					case 3:
 						Queen queen = new Queen(1, Black);
 						Black.Pieces.Add(queen);
+						queen.CurrentPosition = new Coordinate(column, 7);
 						gameGrid.Where(space => space.Key.Column == column && space.Key.Row == 7).First().Value.OccupyingPiece = queen;
 						break;
 				}
@@ -177,7 +190,8 @@ namespace Chess.Control
 					//Quick castling check
 					if (move.PieceMoved is King k)
 					{
-						if (k.ValidCastleTargets.Count > 0 && 
+						if (k.ValidCastleTargets!=null &&
+							k.ValidCastleTargets.Count > 0 && 
 							k.ValidCastleTargets.Any(rook => rook.CurrentPosition == move.EndCoordinate))
 						{
 							//Fetch the elligable rook
@@ -234,13 +248,16 @@ namespace Chess.Control
 							if (GetSquare(move.EndCoordinate).OccupyingPiece != null)
 							{
 								move.PieceTaken = GetSquare(move.EndCoordinate).OccupyingPiece;
+								move.PieceTaken.CurrentPosition = null;
 								move.PieceTaken.OwningPlayer.Graveyard.Add(move.PieceTaken);
 								move.PieceTaken.OwningPlayer.Pieces.Remove(move.PieceTaken);
 							}
 
 							//If we're here, then all the checks have passed and we can move the piece.
+
 							GetSquare(move.StartCoordinate).OccupyingPiece = null;
 							GetSquare(move.EndCoordinate).OccupyingPiece = move.PieceMoved;
+							move.PieceMoved.CurrentPosition = move.EndCoordinate;
 							move.PieceMoved.HasMoved = true;
 						}
 						else

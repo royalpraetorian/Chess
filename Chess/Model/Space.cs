@@ -29,7 +29,7 @@ namespace Chess.Model
 			{
 				occupyingPiece = value;
 				if (PropertyChanged != null)
-					PropertyChanged(this, null);
+					PropertyChanged(this, new PropertyChangedEventArgs("OccupyingPiece"));
 			}
 		}
 
