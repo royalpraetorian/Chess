@@ -166,7 +166,7 @@ namespace Chess.Model.Ranks
 				}
 
 				//Check if we can castle.
-				if (ValidCastleTargets.Count > 0)
+				if (ValidCastleTargets != null && ValidCastleTargets.Count > 0)
 				{
 					foreach (Piece p in ValidCastleTargets)
 					{

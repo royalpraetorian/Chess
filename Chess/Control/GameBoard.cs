@@ -190,39 +190,56 @@ namespace Chess.Control
 					//Quick castling check
 					if (move.PieceMoved is King k)
 					{
-						if (k.ValidCastleTargets!=null &&
-							k.ValidCastleTargets.Count > 0 && 
-							k.ValidCastleTargets.Any(rook => rook.CurrentPosition == move.EndCoordinate))
+						List<Piece> validCastleTargets = k.ValidCastleTargets;
+						if (validCastleTargets != null &&
+							validCastleTargets.Count > 0 &&
+							validCastleTargets.Any(rook => rook.CurrentPosition == move.EndCoordinate))
 						{
 							//Fetch the elligable rook
-							Rook r = (Rook)k.ValidCastleTargets.Where(rook => rook.CurrentPosition == move.EndCoordinate).Single();
+							Rook r = (Rook)validCastleTargets.Where(rook => rook.CurrentPosition == move.EndCoordinate).First();
 
 							//Get the vector from the king to the rook.
 							Coordinate vector = Coordinate.GetVector(k.CurrentPosition, r.CurrentPosition);
-							while (GetSquare(k.CurrentPosition+vector).OccupyingPiece!=r) //Check that the king and rook are not already adjacent.
-							{
-								//Move the king one square towards the rook.
-								Coordinate kNextPosition = k.CurrentPosition+vector;
-								GetSquare(k.CurrentPosition).OccupyingPiece = null;
-								GetSquare(kNextPosition).OccupyingPiece = k;
 
-								//Perform the same adjacency check and if they are not adjacent, move the rook. 
-								if (GetSquare(k.CurrentPosition + vector).OccupyingPiece != r)
-								{
-									Coordinate rNextPosition = r.CurrentPosition - vector;
-									GetSquare(r.CurrentPosition).OccupyingPiece = null;
-									GetSquare(rNextPosition).OccupyingPiece = r;
-								}
-							}
-							//Store the final positions of each piece.
-							Coordinate rCurrent = r.CurrentPosition;
-							Coordinate kCurrent = k.CurrentPosition;
+							//King always moves two spaces
+							GetSquare(k.CurrentPosition).OccupyingPiece = null;
+							k.CurrentPosition += vector;
+							k.CurrentPosition += vector;
+							GetSquare(k.CurrentPosition).OccupyingPiece = k;
 
-							//Invert the two.
-							GetSquare(rCurrent).OccupyingPiece = k;
-							GetSquare(kCurrent).OccupyingPiece = r;
+							//Place rook on the opposite side of the king.
+							GetSquare(r.CurrentPosition).OccupyingPiece = null;
+							r.CurrentPosition = k.CurrentPosition - vector;
+							GetSquare(r.CurrentPosition).OccupyingPiece = r;
 
-							TurnStep();
+							move.PieceMoved.HasMoved = true;
+							r.HasMoved = true;
+
+							//while (GetSquare(k.CurrentPosition+vector).OccupyingPiece!=r) //Check that the king and rook are not already adjacent.
+							//{
+							//	//Move the king one square towards the rook.
+							//	Coordinate kNextPosition = k.CurrentPosition+vector;
+							//	GetSquare(k.CurrentPosition).OccupyingPiece = null;
+							//	GetSquare(kNextPosition).OccupyingPiece = k;
+							//	k.CurrentPosition = kNextPosition;
+
+							//	//Perform the same adjacency check and if they are not adjacent, move the rook. 
+							//	if (GetSquare(k.CurrentPosition + vector).OccupyingPiece != r)
+							//	{
+							//		Coordinate rNextPosition = r.CurrentPosition - vector;
+							//		GetSquare(r.CurrentPosition).OccupyingPiece = null;
+							//		GetSquare(rNextPosition).OccupyingPiece = r;
+							//		r.CurrentPosition = rNextPosition;
+							//	}
+							//}
+							////Store the final positions of each piece.
+							//Coordinate rCurrent = r.CurrentPosition;
+							//Coordinate kCurrent = k.CurrentPosition;
+
+							////Invert the two.
+							//GetSquare(rCurrent).OccupyingPiece = k;
+							//GetSquare(kCurrent).OccupyingPiece = r;
+
 							moveHistory.Add(move);
 							return move;
 						}

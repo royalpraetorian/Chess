@@ -17,3 +17,10 @@ C:\Users\William Walsh\Documents\GitHub\Chess\Chess\bin\Debug\Chess.dll.config
 C:\Users\William Walsh\Documents\GitHub\Chess\Chess\bin\Debug\Chess.dll
 C:\Users\William Walsh\Documents\GitHub\Chess\Chess\bin\Debug\Chess.pdb
 C:\Users\Ahrivaeus\Documents\GitHub\Chess\Chess\obj\Debug\Chess.csprojResolveAssemblyReference.cache
+D:\Projects\Chess\Chess\bin\Debug\Chess.dll.config
+D:\Projects\Chess\Chess\bin\Debug\Chess.dll
+D:\Projects\Chess\Chess\bin\Debug\Chess.pdb
+D:\Projects\Chess\Chess\obj\Debug\Chess.csproj.AssemblyReference.cache
+D:\Projects\Chess\Chess\obj\Debug\Chess.csproj.CoreCompileInputs.cache
+D:\Projects\Chess\Chess\obj\Debug\Chess.dll
+D:\Projects\Chess\Chess\obj\Debug\Chess.pdb
