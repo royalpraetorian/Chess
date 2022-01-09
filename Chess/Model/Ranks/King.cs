@@ -117,6 +117,14 @@ namespace Chess.Model.Ranks
 			}
 		}
 
+		public override List<List<Coordinate>> ThreatCollide
+		{
+			get
+			{
+				return Threat;
+			}
+		}
+
 		public override List<List<Coordinate>> RangeOfMotion
 		{
 			get

@@ -23,6 +23,14 @@ namespace Chess.Model.Ranks
 				return threat;
 			}
 		}
+
+		public override List<List<Coordinate>> ThreatCollide
+		{
+			get
+			{
+				return Threat;
+			}
+		}
         // Add check logic for phantom pawn in RoM method
 		public override List<List<Coordinate>> RangeOfMotion
 		{

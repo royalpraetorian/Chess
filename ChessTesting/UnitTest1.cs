@@ -42,5 +42,38 @@ namespace ChessTesting
 			Assert.IsTrue(game.MovePiece(m).ErrorMessage == null);
 			Console.WriteLine(m);
 		}
+
+		[TestMethod]
+		public void PostCastleDebug()
+		{
+			GameBoard game = new GameBoard();
+			Move m = new Move(new Coordinate(4, 1), new Coordinate(4, 2));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(4, 6), new Coordinate(4, 5));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(5, 0), new Coordinate(4, 1));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(5, 6), new Coordinate(5, 5));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(6, 0), new Coordinate(5, 2));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(6, 6), new Coordinate(6, 5));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(4, 0), new Coordinate(7, 0));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(7, 6), new Coordinate(7, 5));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+			m = new Move(new Coordinate(6, 0), new Coordinate(7, 0));
+			game.MovePiece(m);
+			game.IncrimentTurn();
+		}
 	}
 }

@@ -44,7 +44,6 @@ namespace Chess.Control
 
         public void SubscribeEvents() {
             TurnStep += IncrimentTurn;
-            TurnStep += CheckMateValidation;
         }
 
         public void ResetBoard()
@@ -305,6 +304,7 @@ namespace Chess.Control
 		public void IncrimentTurn()
 		{
 			Turn++;
+			CheckMateValidation();
 		}
 
         public bool KingCheck(int curPlayerToCheck) {
