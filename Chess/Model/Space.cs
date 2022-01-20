@@ -15,7 +15,7 @@ namespace Chess.Model
 		public GameBoard Board;
         public byte PassantTimer { get; set; } = 1;
 
-        public Pawn PhantomPawn { get; set; }
+        public bool PhantomPawn { get; set; }
 
 		private Piece occupyingPiece;
 
@@ -42,12 +42,12 @@ namespace Chess.Model
 
         public void PhantomCheck()
         {
-            if (this.PhantomPawn != null)
+            if (this.PhantomPawn != false)
             {
                 PassantTimer++;
                 if (PassantTimer == 3)
                 {
-                    PhantomPawn = null;
+                    PhantomPawn = false;
                     PassantTimer = 1;
                 }
             }

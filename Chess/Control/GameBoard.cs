@@ -51,6 +51,8 @@ namespace Chess.Control
 			//Clear the board of all current spaces.
 			//Because pieces are contained within spaces, this will effectively clear all of our pieces as well.
 			gameGrid.Clear();
+			White.Pieces.Clear();
+			Black.Pieces.Clear();
 			//We also need to clear the move history to begin a new game.
 			moveHistory.Clear();
 
@@ -214,31 +216,6 @@ namespace Chess.Control
 							move.PieceMoved.HasMoved = true;
 							r.HasMoved = true;
 
-							//while (GetSquare(k.CurrentPosition+vector).OccupyingPiece!=r) //Check that the king and rook are not already adjacent.
-							//{
-							//	//Move the king one square towards the rook.
-							//	Coordinate kNextPosition = k.CurrentPosition+vector;
-							//	GetSquare(k.CurrentPosition).OccupyingPiece = null;
-							//	GetSquare(kNextPosition).OccupyingPiece = k;
-							//	k.CurrentPosition = kNextPosition;
-
-							//	//Perform the same adjacency check and if they are not adjacent, move the rook. 
-							//	if (GetSquare(k.CurrentPosition + vector).OccupyingPiece != r)
-							//	{
-							//		Coordinate rNextPosition = r.CurrentPosition - vector;
-							//		GetSquare(r.CurrentPosition).OccupyingPiece = null;
-							//		GetSquare(rNextPosition).OccupyingPiece = r;
-							//		r.CurrentPosition = rNextPosition;
-							//	}
-							//}
-							////Store the final positions of each piece.
-							//Coordinate rCurrent = r.CurrentPosition;
-							//Coordinate kCurrent = k.CurrentPosition;
-
-							////Invert the two.
-							//GetSquare(rCurrent).OccupyingPiece = k;
-							//GetSquare(kCurrent).OccupyingPiece = r;
-
 							moveHistory.Add(move);
 							return move;
 						}
@@ -256,6 +233,8 @@ namespace Chess.Control
 								//Get the current space and the end space, and make sure they are more than one away from each other
 								if (Math.Abs(move.EndCoordinate.Row - move.StartCoordinate.Row) == 2)
 								{
+									Coordinate moveVector = Coordinate.GetVector(move.StartCoordinate, move.EndCoordinate);
+									Coordinate phantomSpace = move.StartCoordinate + moveVector;
 									//TODO Place the phantom pawn.
 								}
 							}
@@ -343,7 +322,7 @@ namespace Chess.Control
 			{
 				GameWon(null);
 			}
-			else
+			else if (White.King.Threatened || Black.King.Threatened)
 			{
 				if (!White.Pieces.Any(piece => //If white has no pieces,
 					piece.ValidRangeOfMotion.Any(vector => //Which have any valid vector,
@@ -351,7 +330,7 @@ namespace Chess.Control
 				{
 					GameWon(Black);
 				}  //Perform the same check on Black.
-				else if (!White.Pieces.Any(piece => //If black has no pieces,
+				else if (!Black.Pieces.Any(piece => //If black has no pieces,
 					piece.ValidRangeOfMotion.Any(vector => //Which have any valid vector,
 					vector.Count > 0))) //With at least one move, then they have lost.
 				{

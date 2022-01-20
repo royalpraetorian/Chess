@@ -79,16 +79,19 @@ namespace Chess.Model
 			return new Coordinate((a.Column * b.Column), a.Row * b.Row);
 		}
 
+		public override int GetHashCode()
+		{
+			unchecked
+			{
+				return ((Column * 297) ^ Row) * 397;
+			}
+		}
+
 		public override bool Equals(object obj)
 		{
-			if (obj.GetType().Equals(typeof(Coordinate)))
+			if(obj is Coordinate comparitor)
 			{
-				Coordinate comparitor = (Coordinate)obj;
-				if (comparitor.Column == this.Column && comparitor.Row == this.Row)
-				{
-					return true;
-				}
-				else return false;
+				return comparitor.Column == this.Column && comparitor.Row == this.Row;
 			}
 			else return false;
 		}
